@@ -5,14 +5,15 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import { ClientOnly } from "#components";
 import { Download } from "lucide-vue-next";
-import axios from "axios";
-// import { useApi } from "~/composables/useApi";
-
-// const { getAll } = useApi("");
+const { $api } = useNuxtApp();
 
 const fetchData = async () => {
-  const response = await axios.get("http://127.0.0.1:8000/api/test");
-  console.log(response);
+  try {
+    const response = await $api.get("/test");
+    console.log(response.data);
+  } catch (err) {
+    console.error("Lỗi gọi API:", err);
+  }
 };
 
 onMounted(() => {
