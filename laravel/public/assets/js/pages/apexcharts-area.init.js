@@ -30,7 +30,7 @@ var options = {
   stroke: {
     curve: "straight",
   },
-  colors: ["#537AEF"],
+  colors: ["#206bc4"],
   title: {
     text: "Fundamental Analysis of Stocks",
     align: "left",
@@ -81,7 +81,7 @@ var options = {
   stroke: {
     curve: "smooth",
   },
-  colors: ["#537AEF", "#343a40"],
+  colors: ["#206bc4", "#343a40"],
   xaxis: {
     type: "datetime",
     categories: [
@@ -328,7 +328,7 @@ var options = {
       show: false,
     },
   },
-  colors: ["#537AEF", "#f2c94c"],
+  colors: ["#206bc4", "#f2c94c"],
   fill: {
     opacity: 0.5,
   },
@@ -652,7 +652,7 @@ var options = {
       autoScaleYaxis: true,
     },
   },
-  colors: ["#537AEF"],
+  colors: ["#206bc4"],
   annotations: {
     yaxis: [
       {
@@ -767,7 +767,7 @@ var options = {
       },
     },
   },
-  colors: ["#537AEF"],
+  colors: ["#206bc4"],
   stroke: {
     width: 0,
     curve: "monotoneCubic",
@@ -840,7 +840,7 @@ var optionsYears = {
 var chartYears = new ApexCharts(document.querySelector("#area_chart-years"), optionsYears); chartYears.render();
 
 
-// 
+//
 // Stacked Area Chart
 //
 var generateDayWiseTimeSeries = function (baseval, count, yrange) {
@@ -895,7 +895,7 @@ var options = {
       }
     },
   },
-  colors: ['#4a5a6b', '#537AEF', '#29aa85'],
+  colors: ['#4a5a6b', '#206bc4', '#29aa85'],
   dataLabels: {
     enabled: false
   },
@@ -921,7 +921,7 @@ var options = {
 var chart = new ApexCharts(document.querySelector("#stacked_area_chart"), options);
 chart.render();
 
-// 
+//
 // Irregular Timeseries Chart
 //
 var ts1 = 1388534400000;
@@ -951,7 +951,7 @@ for (var i = 0; i < 12; i++) {
 }
 
 
-// 
+//
 // Irregular Timeseries Chart
 //
 var options = {
@@ -1039,14 +1039,14 @@ var options = {
     horizontalAlign: 'right',
     offsetX: -10
   },
-  colors: ['#343a40', '#537AEF', '#ec8290']
+  colors: ['#343a40', '#206bc4', '#ec8290']
 };
 
 var chart = new ApexCharts(document.querySelector("#irregular_area_chart"), options);
 chart.render();
 
 
-// 
+//
 // Area Chart With Null Values Chart
 //
 var options = {
@@ -1202,7 +1202,7 @@ var options = {
       text: 'Bytes Received'
     }
   },
-  colors: ['#537AEF']
+  colors: ['#206bc4']
 };
 var chart = new ApexCharts(document.querySelector("#missing_null-value_area_chart"), options);
 chart.render();

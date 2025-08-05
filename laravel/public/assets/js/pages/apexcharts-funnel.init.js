@@ -21,7 +21,7 @@ var options = {
         height: 350,
         parentHeightOffset: 0,
     },
-    colors: ["#537AEF"],
+    colors: ["#206bc4"],
     plotOptions: {
         bar: {
             borderRadius: 0,
@@ -63,9 +63,9 @@ var chart = new ApexCharts(document.querySelector("#funnel_chart"), options);
 chart.render();
 
 
-//   
+//
 // Pyramid Funnel Chart
-// 
+//
 var options = {
     series: [
         {
@@ -95,7 +95,7 @@ var options = {
         '#963b68',
         '#8c57d1',
         '#522c8f',
-        '#537AEF',
+        '#206bc4',
     ],
     dataLabels: {
         enabled: true,

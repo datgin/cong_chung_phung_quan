@@ -49,10 +49,10 @@ window.mediaPopup = {
             if (!files.length) return;
 
             const formData = new FormData();
-            $.each(files, (i, file) => formData.append("file[]", file));
+            $.each(files, (i, file) => formData.append("files[]", file));
 
             $.ajax({
-                url: "/media/upload",
+                url: "/admin/media/upload",
                 method: "POST",
                 data: formData,
                 processData: false,
@@ -61,7 +61,7 @@ window.mediaPopup = {
                     loadImages();
                     $uploadInput.val("");
                 },
-                error: () => alert("Không thể upload ảnh"),
+                error: (xhr) => datgin.warning(xhr.responseJSON.message),
             });
         });
     },
@@ -188,7 +188,7 @@ window.mediaPopup = {
                 }
 
                 $.ajax({
-                    url: "/media/destroy",
+                    url: "/admin/media/destroy",
                     method: "DELETE",
                     data: {
                         ids,
@@ -223,6 +223,8 @@ window.mediaPopup = {
 };
 
 function internalHandleSelect() {
+    console.log(123);
+
     const uid = window.mediaPopup.currentUid;
     const multiple = window.mediaPopup.multiple;
     const selectedImg = selectedImages[uid];
@@ -261,21 +263,32 @@ function internalHandleSelect() {
     let html = "";
     $.each(images, function (i, img) {
         html += `
-            <div data-uid="${uid}" data-id="${img.id}" class="position-relative selected-img" style="width: 100px; height: 100px; flex-shrink: 0;">
-                <div class="w-100 h-100 position-relative overflow-hidden rounded">
-                    <img src="${img.path}" data-path="${img.path}" class="img-thumbnail w-100 h-100 object-fit-cover rounded">
-                    <div class="overlay-hover-image position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 gap-2 justify-content-center align-items-center" style="display: none;">
-                        <a href="${img.path}" data-lightbox="preview-${uid}" class="btn-preview-img">
-                            <i class="fas fa-eye shadow fw-medium" title="Xem ảnh"></i>
-                        </a>
-                        <i class="far fa-trash-alt btn-remove-img shadow" title="Xoá ảnh"></i>
-                    </div>
-                </div>
+        <div data-uid="${uid}" data-id="${img.id}"
+            class="position-relative selected-img ${
+                multiple ? "" : "w-100 h-100"
+            }">
+            <img src="${img.path}" data-path="${
+            img.path
+        }" class="rounded">
+            <div class="overlay-hover-image position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 gap-2 justify-content-center align-items-center" style="display: none;">
+                <a href="${
+                    img.path
+                }" data-lightbox="preview-${uid}" class="btn-preview-img">
+                    <i class="fas fa-eye shadow fw-medium" title="Xem ảnh"></i>
+                </a>
+                <i class="far fa-trash-alt btn-remove-img shadow" title="Xoá ảnh"></i>
             </div>
-        `;
+        </div>
+    `;
     });
 
     $preview.html(html);
+
+    // sau khi append html
+    if (multiple) {
+        $(`#${uid}_upload_wrapper`).addClass("upload-multiple");
+    }
+
     $placeholder.toggle(images.length === 0);
 
     // Tạo lại input hidden
@@ -302,12 +315,12 @@ function loadImages(page = 1, keyword = "") {
     $list.html('<div class="text-muted p-4">Đang tải ảnh...</div>');
 
     $.ajax({
-        url: `/media?page=${page}&search=${keyword}`,
+        url: `/admin/media?page=${page}&search=${keyword}`,
         method: "GET",
         beforeSend: () => $("#loadingOverlay").show(),
         complete: () => $("#loadingOverlay").hide(),
         success: function (res) {
-            allImages = res.data || [];
+            allImages = res.data.data || [];
 
             if (!allImages.length) {
                 $list.html(
@@ -337,10 +350,13 @@ function loadImages(page = 1, keyword = "") {
 
             html += "</div>"; // Đóng danh sách ảnh
 
+            console.log(res);
+
+
             let paginationHtml = ""; // Khởi tạo biến ở ngoài để tránh mất
-            if (res.pagination && res.pagination.last_page > 1) {
-                const currentPage = res.pagination.current_page;
-                const lastPage = res.pagination.last_page;
+            if (res.data && res.data.last_page > 1) {
+                const currentPage = res.data.current_page;
+                const lastPage = res.data.last_page;
 
                 paginationHtml += '<div class="custom-pagination">';
 

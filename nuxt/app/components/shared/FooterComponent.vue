@@ -150,12 +150,12 @@
           <h3 class="text-white font-semibold text-lg mb-6 relative">
             Bản đồ
             <div
-              class="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+              class="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500"
             ></div>
           </h3>
-          <div class="rounded-lg overflow-hidden shadow-lg">
+          <div class=" overflow-hidden shadow-lg">
             <iframe
-              class="w-full h-64 sm:h-48 md:h-40 rounded-lg border-0"
+              class="w-full h-64 sm:h-48 md:h-40 border-0"
               loading="lazy"
               allowfullscreen
               referrerpolicy="no-referrer-when-downgrade"

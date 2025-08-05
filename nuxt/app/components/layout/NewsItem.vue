@@ -1,8 +1,8 @@
 <template>
   <div
-    v-for="post in filteredPosts"
+    v-for="post in props.posts"
     :key="post.id"
-    class="bg-gray-50 rounded overflow-hidden shadow-sm hover:shadow-md transition"
+    class="bg-gray-50 overflow-hidden shadow-sm hover:shadow-md transition"
   >
     <NuxtLink :to="`/news/${post.slug}`" class="block group">
       <div class="h-36 sm:h-40 md:h-48 overflow-hidden">
@@ -37,13 +37,6 @@ import { CalendarDays } from "lucide-vue-next";
 
 const props = defineProps({
   posts: { type: Array, default: () => [] },
-  selectedCategory: { type: String, default: null },
-});
-
-const filteredPosts = computed(() => {
-  if (!props.selectedCategory || props.selectedCategory === "Tất cả")
-    return props.posts;
-  return props.posts.filter((p) => p.category === props.selectedCategory);
 });
 </script>
 

@@ -23,7 +23,7 @@ var options = {
     fill: {
         opacity: 0.8
     },
-    colors: ['#537AEF','#8c57d1','#963b68','#e68434','#29aa85'],
+    colors: ['#206bc4','#8c57d1','#963b68','#e68434','#29aa85'],
     responsive: [{
         breakpoint: 480,
         options: {
@@ -40,9 +40,9 @@ var chart = new ApexCharts(document.querySelector("#basic_polar_chart"), options
 chart.render();
 
 
-// 
+//
 // Monochrome
-// 
+//
 var options = {
     series: [42, 47, 52, 58, 65],
     chart: {

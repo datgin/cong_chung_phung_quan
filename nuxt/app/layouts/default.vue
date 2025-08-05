@@ -1,5 +1,8 @@
 <script setup>
+import { useLoadingStore } from "~/stores/loading";
+
 const isMobileMenuOpen = ref(false);
+const loadingStore = useLoadingStore();
 
 const toggleMenu = (val) => {
   isMobileMenuOpen.value = val;
@@ -15,5 +18,7 @@ const toggleMenu = (val) => {
     />
     <slot></slot>
     <FooterComponent />
+    <FloatingActions />
+    <FullPageLoader :visible="loadingStore.isLoading" />
   </div>
 </template>

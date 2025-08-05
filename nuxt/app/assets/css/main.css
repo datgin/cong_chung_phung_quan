@@ -9,3 +9,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.heading-line {
+  position: relative;
+  display: inline-block; /* để line chỉ tính theo chiều rộng nội dung */
+}
+
+.heading-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px; /* khoảng cách dưới tiêu đề */
+  height: 3px;
+  width: 30%;
+  background-color: #dc2626; /* Tailwind: red-600 */
+}

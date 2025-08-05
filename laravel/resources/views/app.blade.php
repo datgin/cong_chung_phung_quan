@@ -48,6 +48,10 @@
     </div>
     <!-- END wrapper -->
 
+    <div id="loadingOverlay">
+        <div id="loading"></div>
+    </div>
+
     @include('layout.script')
 
 </body>

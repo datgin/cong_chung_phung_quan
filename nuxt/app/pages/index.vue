@@ -3,24 +3,22 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
-import { ClientOnly } from "#components";
+// import { ClientOnly } from "#components";
 import { Download } from "lucide-vue-next";
-const { $api } = useNuxtApp();
+// const { $api } = useNuxtApp();
 
-const fetchData = async () => {
-  try {
-    const response = await $api.get("/test");
-    console.log(response.data);
-  } catch (err) {
-    console.error("Lỗi gọi API:", err);
-  }
-};
+// const fetchData = async () => {
+//   try {
+//     const response = await $api.get("/test");
+//     console.log(response.data);
+//   } catch (err) {
+//     console.error("Lỗi gọi API:", err);
+//   }
+// };
 
-onMounted(() => {
-  fetchData();
-});
-
-const selectedCategory = ref("Tất cả");
+// onMounted(() => {
+//   fetchData();
+// });
 
 const banners = [
   "/images/banner1920x500.jpg",
@@ -71,8 +69,6 @@ const posts = [
   },
 ];
 
-const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin tức"];
-
 // const config = useRuntimeConfig();
 // console.log(config.public.apiBase);
 </script>
@@ -107,48 +103,19 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
     <div class="py-10 sm:py-12 bg-white">
       <div class="max-w-7xl mx-auto">
         <!-- Header -->
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4"
-        >
-          <h2 class="text-2xl font-bold text-gray-900">Tin tức nổi bật</h2>
-
-          <!-- Nút lọc (Desktop) -->
-          <div class="flex-wrap gap-2 hidden md:flex">
-            <button
-              v-for="cat in categories"
-              :key="cat"
-              :class="[
-                'px-4 py-1.5 rounded-full border border-gray-300 text-sm font-medium transition-all duration-200',
-                selectedCategory === cat
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-blue-600 cursor-pointer',
-              ]"
-              @click="selectedCategory = cat"
-            >
-              {{ cat }}
-            </button>
-          </div>
-
-          <!-- Dropdown lọc (Mobile) -->
-          <div class="block md:hidden">
-            <ClientOnly>
-              <a-select v-model:value="selectedCategory" class="w-full">
-                <a-select-option
-                  v-for="cat in categories"
-                  :key="cat"
-                  :value="cat"
-                  >{{ cat }}</a-select-option
-                >
-              </a-select>
-            </ClientOnly>
-          </div>
+        <div class="mb-8">
+          <h2
+            class="text-2xl font-bold text-gray-900 pl-4 border-l-4 border-red-500"
+          >
+            Tin tức nổi bật
+          </h2>
         </div>
 
         <!-- Grid -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
         >
-          <NewsItem :posts="posts" :selected-category="selectedCategory" />
+          <NewsItem :posts="posts" />
         </div>
 
         <!-- Xem thêm -->
@@ -178,7 +145,7 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
                   <img
                     src="/images/cong_chung_di_chuc.png"
                     alt="tin mới"
-                    class="w-full h-40 object-cover rounded-md mb-2"
+                    class="w-full h-55 object-cover mb-2"
                   />
                   <p class="font-semibold text-gray-800">
                     Hợp đồng ủy quyền: Rủi ro tiềm ẩn và giải pháp từ góc nhìn
@@ -192,7 +159,7 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
                   >
                     <img
                       src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover rounded"
+                      class="w-12 h-10 object-cover"
                     />
                     <div>
                       <p class="text-gray-800">
@@ -205,7 +172,7 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
                   >
                     <img
                       src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover rounded"
+                      class="w-12 h-10 object-cover"
                     />
                     <div>
                       <p class="text-gray-800">
@@ -216,7 +183,7 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
                   <li class="flex gap-3 items-start py-2">
                     <img
                       src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover rounded"
+                      class="w-12 h-10 object-cover"
                     />
                     <div>
                       <p class="text-gray-800">
@@ -247,7 +214,7 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
                   <img
                     src="/images/cong_chung_di_chuc.png"
                     alt="câu hỏi thường gặp"
-                    class="w-full h-40 object-cover rounded-md mb-2"
+                    class="w-full h-40 object-cover mb-2"
                   />
                   <p class="font-semibold text-gray-800">
                     Thủ tục công chứng mua bán nhà đất cần những giấy tờ gì?
@@ -260,7 +227,7 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
                   >
                     <img
                       src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover rounded"
+                      class="w-12 h-10 object-cover"
                     />
                     <div>
                       <p class="text-gray-800">
@@ -273,7 +240,7 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
                   >
                     <img
                       src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover rounded"
+                      class="w-12 h-10 object-cover "
                     />
                     <div>
                       <p class="text-gray-800">
@@ -284,7 +251,7 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
                   <li class="flex gap-3 items-start py-2">
                     <img
                       src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover rounded"
+                      class="w-12 h-10 object-cover "
                     />
                     <div>
                       <p class="text-gray-800">
@@ -315,7 +282,7 @@ const categories = ["Tất cả", "Lập trình", "Thiết kế", "SEO", "Tin t�
                   <img
                     src="/images/cong_chung_di_chuc.png"
                     alt="Văn bản pháp luật"
-                    class="w-full h-40 object-cover rounded-md"
+                    class="w-full h-40 object-cover"
                   />
                 </div>
 

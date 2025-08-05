@@ -142,6 +142,7 @@ class App {
             // activate the menu in left side bar (Vertical Menu) based on url
             $("#side-menu a").each(function () {
                 var pageUrl = window.location.href.split(/[?#]/)[0];
+
                 if (this.href == pageUrl) {
                     $(this).addClass("active");
                     $(this).parent().addClass("menuitem-active");

@@ -6,17 +6,23 @@
         class="flex flex-wrap justify-center md:justify-start items-center gap-x-2 gap-y-1 text-sm"
       >
         <li class="p-3 hover:bg-[#c12026] transition-colors">
-          <a href="/" class="uppercase">Trang chủ</a>
+          <!-- <a href="/" class="uppercase">Trang chủ</a> -->
+          <NuxtLink :to="{ path: '/' }" class="uppercase">Trang chủ</NuxtLink>
         </li>
         <li class="p-3 hover:bg-[#c12026] transition-colors">
           <a href="/" class="uppercase">Giới thiệu</a>
         </li>
-        <li class="p-3 hover:bg-[#c12026] transition-colors">
-          <a href="#" class="uppercase">Thủ tục công chứng</a>
+
+        <li
+          v-for="catalogue in catalogues"
+          :key="catalogue.id"
+          class="p-3 hover:bg-[#c12026] transition-colors"
+        >
+          <NuxtLink :to="{ path: `/${catalogue.slug}` }" class="uppercase">{{
+            catalogue.name
+          }}</NuxtLink>
         </li>
-        <li class="p-3 hover:bg-[#c12026] transition-colors">
-          <a href="#" class="uppercase">Danh mục công chứng</a>
-        </li>
+
         <li class="p-3 hover:bg-[#c12026] transition-colors">
           <a href="#" class="uppercase">Tính phí</a>
         </li>
@@ -28,6 +34,9 @@
         </li>
         <li class="p-3 hover:bg-[#c12026] transition-colors">
           <a href="#" class="uppercase">Tin tức</a>
+        </li>
+        <li class="p-3 hover:bg-[#c12026] transition-colors">
+          <a href="#" class="uppercase">liên hệ</a>
         </li>
       </ul>
     </div>
@@ -60,13 +69,32 @@
         <li><a href="#" class="block py-2">Thủ tục cấp sổ đỏ</a></li>
         <li><a href="#" class="block py-2">Văn bản pháp luật</a></li>
         <li><a href="#" class="block py-2">Tin tức</a></li>
+        <li><a href="#" class="block py-2">Liên hệ</a></li>
       </ul>
     </div>
   </div>
 </template>
 
 <script setup>
+import { NuxtLink } from "#components";
 import { X } from "lucide-vue-next";
+const { getAll } = useApi();
+
+const catalogues = ref([]);
+
+const fetchData = async () => {
+  try {
+    const result = await getAll("/catalogues");
+
+    catalogues.value = result;
+  } catch (err) {
+    console.error("Lỗi gọi API:", err);
+  }
+};
+
+onMounted(() => {
+  fetchData();
+});
 
 defineEmits(["toggle-menu"]);
 

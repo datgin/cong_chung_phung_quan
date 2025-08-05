@@ -7,7 +7,7 @@ const dataTables = (
         hasDateRange = false,
         hasDtControl = false,
         fixedColumns = null,
-        scrollX = true,
+        scrollX = false,
         onInitComplete = null,
         onDrawCallback = null,
         tableId = "#myTable",
@@ -27,7 +27,7 @@ const dataTables = (
         .filter((col) => col.className !== "dt-control")
         .map((col) => `<th>${col.title || ""}</th>`)
         .join("");
-    if (isOperation) thead += "<th>Hành động</th>";
+    if (isOperation) thead += "<th>HÀNH ĐỘNG</th>";
     thead += "</tr></thead>";
     $table.append(thead);
 
@@ -61,11 +61,11 @@ const dataTables = (
         finalColumns.push({
             data: "operations",
             name: "operations",
-            title: "Hành động",
+            title: "HÀNH ĐỘNG",
             orderable: false,
             searchable: false,
             className: "text-center",
-            width: "8%",
+            width: "10%",
         });
     }
 
@@ -146,19 +146,27 @@ const dataTables = (
     const targetDiv = $(".dt-layout-cell.dt-layout-start .dt-length");
 
     let _html = `
-        <div id="actionBox" class="d-none">
-            <select class="form-select form-select-sm" id="bulkAction">
-                <option value="">-- Chọn hành động --</option>
-                <option value="delete">Xóa đã chọn</option>
-                <option value="change-status">Thay đổi trạng thái</option>
-            </select>
+        <div id="actionBox" class="d-none dropdown">
+            <button
+                class="btn btn-sm py-1 btn-light dropdown-toggle border"
+                type="button"
+                id="bulkActionDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+            >
+                Chọn hành động
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="bulkActionDropdown">
+                <li><a class="dropdown-item bulk-action-item" href="#" data-action="delete">Xóa đã chọn</a></li>
+                <li><a class="dropdown-item bulk-action-item" href="#" data-action="change-status">Thay đổi trạng thái</a></li>
+            </ul>
         </div>
+
         `;
 
     targetDiv.after(_html);
 
     $(document).on("change", "#checkedAll", function () {
-        console.log(123);
         const isChecked = $(this).is(":checked");
         $(".row-checkbox").prop("checked", isChecked);
         toggleActionBox();
@@ -229,8 +237,11 @@ const dataTables = (
 };
 
 const initBulkAction = (modelName) => {
-    $(document).on("change", "#bulkAction", function () {
-        const action = $(this).val();
+    $(document).on("click", ".bulk-action-item", function (e) {
+        e.preventDefault();
+
+        const action = $(this).data("action");
+
         const ids = $(".row-checkbox:checked")
             .map(function () {
                 return $(this).val();
@@ -244,27 +255,29 @@ const initBulkAction = (modelName) => {
         }
 
         let confirmText = "Bạn có chắc chắn muốn thực hiện hành động này?";
-        let confirmButton = "Xác nhận";
 
         if (action === "delete") {
             confirmText = "Bạn có chắc chắn muốn xóa các mục đã chọn?";
-            confirmButton = "Xóa";
         } else if (action === "change-status") {
             confirmText = "Bạn có chắc chắn muốn thay đổi trạng thái đã chọn?";
-            confirmButton = "Khóa";
         }
 
         Swal.fire({
             title: "Xác nhận hành động",
             text: confirmText,
-            icon: "question",
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: confirmButton,
-            cancelButtonText: "Hủy",
+            confirmButtonText: "Xác nhận",
+            cancelButtonText: "Hủy bỏ",
+            customClass: {
+                confirmButton: "btn btn-primary me-2",
+                cancelButton: "btn  btn-danger",
+            },
+            buttonsStyling: false,
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/handle-bulk-action",
+                    url: "/admin/handle-bulk-action",
                     method: "POST",
                     data: {
                         type: action,
@@ -359,12 +372,12 @@ const handleDestroy = (model) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/handle-bulk-action",
+                    url: "/admin/handle-bulk-action",
                     type: "POST",
                     data: {
                         type: "delete",
                         model,
-                        ids: id,
+                        ids: [id],
                     },
                     success: function (res) {
                         $("table").DataTable().ajax.reload();

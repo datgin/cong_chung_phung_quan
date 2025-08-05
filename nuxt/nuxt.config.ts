@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "nuxt-swiper",
     "@ant-design-vue/nuxt",
+    "@pinia/nuxt",
   ],
   vite: {
     plugins: [tailwindcss()],

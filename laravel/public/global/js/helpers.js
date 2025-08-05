@@ -1,16 +1,14 @@
 function submitForm(formId, successCallback, url = null, errorCallback = null) {
+    let submitAction = null;
+
+    $(`${formId} button[type="submit"]`).on("click", function () {
+        submitAction = $(this).val();
+    });
+
     $(formId).on("submit", function (e) {
         e.preventDefault();
 
         const $form = $(this);
-        const $btn = $form
-            .find('button[type="submit"], #submitRequestBtn')
-            .first();
-        const originalText = $btn.html();
-
-        $btn.prop("disabled", true).html(
-            '<i class="fas fa-spinner fa-pulse"></i> Đang gửi...'
-        );
 
         // ✅ Validate toàn bộ form dùng formValidator
         if (
@@ -32,6 +30,8 @@ function submitForm(formId, successCallback, url = null, errorCallback = null) {
 
         const formData = new FormData(this);
 
+        formData.append("submit_action", submitAction);
+
         // ✅ Xóa dấu chấm trong các input có class `format-price`
         $form.find(".format-price").each(function () {
             const name = $(this).attr("name");
@@ -51,7 +51,7 @@ function submitForm(formId, successCallback, url = null, errorCallback = null) {
             },
             success: function (response) {
                 if (typeof successCallback === "function") {
-                    successCallback(response);
+                    successCallback(response, $form, submitAction);
                 }
             },
             error: function (xhr) {
@@ -76,7 +76,6 @@ function submitForm(formId, successCallback, url = null, errorCallback = null) {
             },
             complete: function () {
                 $("#loadingOverlay").hide();
-                $btn.prop("disabled", false).html(originalText);
             },
         });
     });
@@ -107,3 +106,51 @@ $(document).on("input", ".format-price", function () {
         cursorPos + (newLength - originalLength)
     );
 });
+
+function updateCharCount(inputSelector, maxLength) {
+    // Tìm label có 'for' tương ứng với inputSelector
+    const labelSelector = $('label[for="' + inputSelector.substring(1) + '"]');
+
+    // Tạo thẻ charCountSelector và thêm vào sau label
+    const charCountSelector = $("<small></small>")
+        .addClass("char-count")
+        .css({
+            position: "absolute",
+            right: "0",
+            top: ".5rem",
+        })
+        .insertAfter(labelSelector);
+
+    // Đặt maxlength ban đầu cho phần tử input/textarea
+    $(inputSelector).attr("maxlength", maxLength);
+
+    // Hàm cập nhật số ký tự
+    $(inputSelector).on("input", function () {
+        var currentLength = $(this).val().length;
+        charCountSelector.text(currentLength + "/" + maxLength);
+
+        // Kiểm tra khi đã đạt maxLength, ngừng nhập
+        if (currentLength >= maxLength) {
+            $(this).attr("maxlength", maxLength); // Ngừng cho phép nhập thêm ký tự
+        }
+    });
+
+    // Cập nhật số ký tự ban đầu khi trang tải
+    var initialLength = $(inputSelector).val().length;
+    charCountSelector.text(initialLength + "/" + maxLength);
+}
+
+function generateSlug(element) {
+    let text = $(element).val();
+
+    return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/Đ/g, "D")
+        .replace(/[^a-z0-9 -]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .trim();
+}

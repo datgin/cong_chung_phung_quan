@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CatalogueController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,6 @@ Route::get('/test', function () {
         'message' => 'Call api thành công.'
     ]);
 });
+
+Route::get('catalogues', [CatalogueController::class, 'index']);
+Route::get('catalogues/{slug}', [CatalogueController::class, 'show']);

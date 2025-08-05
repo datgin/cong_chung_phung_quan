@@ -403,3 +403,13 @@
 
     </div>
 @endsection
+
+@push('script')
+    <!-- Apexcharts JS -->
+    <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <!-- for basic area chart -->
+    <script src="{{ asset('assets/apexcharts.com/samples/assets/stock-prices.js') }}"></script>
+
+    <!-- Widgets Init Js -->
+    <script src="{{ asset('assets/js/pages/analytics-dashboard.init.js') }}"></script>
+@endpush

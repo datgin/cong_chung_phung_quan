@@ -43,7 +43,7 @@ var options = {
             type: 'xy'
         }
     },
-    colors: ['#537AEF','#8c57d1','#eb9d59'],
+    colors: ['#206bc4','#8c57d1','#eb9d59'],
     xaxis: {
         tickAmount: 10,
         labels: {
@@ -108,7 +108,7 @@ var options = {
             type: 'xy'
         }
     },
-    colors: ['#537AEF','#8c57d1','#5be7bd', '#eb9d59'],
+    colors: ['#206bc4','#8c57d1','#5be7bd', '#eb9d59'],
     dataLabels: {
         enabled: false
     },
@@ -197,7 +197,7 @@ var options = {
             show: false
         }
     },
-    colors: ['#537AEF', '#ec8290'],
+    colors: ['#206bc4', '#ec8290'],
     xaxis: {
         tickAmount: 10,
         min: 0,
