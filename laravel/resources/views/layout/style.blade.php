@@ -22,3 +22,5 @@
  <link rel="stylesheet" href="{{ asset('global/css/toastr.css') }}">
 
  @stack('style')
+
+ @FilemanagerScript
