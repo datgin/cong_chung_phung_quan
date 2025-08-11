@@ -19,7 +19,7 @@ export const useApi = () => {
     } catch (err) {
       console.error(`[GET ALL] ${url} error:`, err);
       if (err.response?.status === 404) {
-        navigateTo("/__404__");
+        navigateTo("/");
       } else {
         error.value = err;
       }
@@ -42,7 +42,7 @@ export const useApi = () => {
     } catch (err) {
       console.error(`[GET ONE] ${url} error:`, err);
       if (err.response?.status === 404) {
-        navigateTo("/__404__");
+        navigateTo("/");
       } else {
         error.value = err;
       }

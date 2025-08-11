@@ -6,6 +6,7 @@ const isMobileMenuOpen = ref(false);
 const loadingStore = useLoadingStore();
 
 const settingStore = useSettingStore();
+const url = useRequestURL();
 
 onMounted(async () => {
   await settingStore.fetchSetting();
@@ -20,6 +21,10 @@ watch(
   (setting) => {
     useHead({
       link: [{ rel: "icon", type: "image/png", href: setting.favicon }],
+    });
+
+    useSeoMeta({
+      ogUrl: url.href,
     });
   }
 );

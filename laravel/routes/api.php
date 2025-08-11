@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\{
     CatalogueController,
+    FaqController,
     LegalDocumentController,
     PostController,
     SettingController
@@ -40,5 +41,12 @@ Route::prefix('legal-documents')
     ->group(function () {
         Route::get('/', 'index');
         Route::get('download/{file}', 'downloadFile');
+        Route::get('{slug}', 'show');
+    });
+
+Route::prefix('faqs')
+    ->controller(FaqController::class)
+    ->group(function () {
+        Route::get('/', 'index');
         Route::get('{slug}', 'show');
     });

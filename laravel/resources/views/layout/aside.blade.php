@@ -60,6 +60,12 @@
                      <span> Văn bản pháp luật </span>
                  </a>
              </li>
+             <li>
+                 <a class='tp-link' href='/admin/faqs'>
+                     <i data-feather="help-circle"></i>
+                     <span> Câu hỏi thường gặp </span>
+                 </a>
+             </li>
 
              <li>
                  <a class='tp-link' href='/admin/settings'>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BulkActionController;
 use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\LegalDocumentController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PostController;
@@ -80,6 +81,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('create', 'store')->name('store');
                 Route::get('{legalDocument}/edit', 'edit')->name('edit');
                 Route::put('{legalDocument}/edit', 'update')->name('update');
+            });
+
+        Route::prefix('faqs')
+            ->controller(FaqController::class)
+            ->name('faqs.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('create', 'create')->name('create');
+                Route::post('create', 'store')->name('store');
+                Route::get('{faq}/edit', 'edit')->name('edit');
+                Route::put('{faq}/edit', 'update')->name('update');
             });
     });
 });

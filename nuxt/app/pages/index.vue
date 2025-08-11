@@ -1,4 +1,5 @@
 <script setup>
+import { useSettingStore } from "~/stores/setting";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
 import "swiper/css";
@@ -7,10 +8,11 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 // import { ClientOnly } from "#components";
-import { Download } from "lucide-vue-next";
+import { ChevronRight, Download } from "lucide-vue-next";
 
 const { getAll } = useApi();
 const { $api } = useNuxtApp();
+const settingStore = useSettingStore();
 
 const banners = [
   "/images/banner1920x500.jpg",
@@ -21,8 +23,8 @@ const banners = [
 const modules = [Autoplay, Pagination, Navigation, EffectFade];
 
 const posts = ref([]);
-
 const legalDocuments = ref([]);
+const faqs = ref([]);
 
 const fetchLegalDocuments = async () => {
   legalDocuments.value = await getAll("legal-documents?page=home");
@@ -32,6 +34,9 @@ const fetchPosts = async () => {
   posts.value = await getAll("posts");
 };
 
+const fetchFaqs = async () => {
+  faqs.value = await getAll("faqs");
+};
 const downloadFile = async (file) => {
   try {
     const response = await $api.get(`legal-documents/download/${file}`, {
@@ -61,9 +66,26 @@ const downloadFile = async (file) => {
   }
 };
 
+watch(
+  () => settingStore.setting,
+  (setting) => {
+    if (!setting) return;
+
+    useSeoMeta({
+      title: setting.title,
+      description: setting.meta_description,
+      ogTitle: setting.meta_title,
+      ogDescription: setting.meta_description,
+      ogImage: setting.logo,
+    });
+  },
+  { immediate: true }
+);
+
 onMounted(() => {
   fetchLegalDocuments();
   fetchPosts();
+  fetchFaqs();
 });
 </script>
 
@@ -101,11 +123,11 @@ onMounted(() => {
       <div class="max-w-7xl mx-auto">
         <!-- Header -->
         <div class="mb-8">
-          <h2
+          <h1
             class="text-2xl font-bold text-gray-900 pl-4 border-l-4 border-red-500"
           >
             Tin tức nổi bật
-          </h2>
+          </h1>
         </div>
 
         <!-- Grid -->
@@ -133,11 +155,11 @@ onMounted(() => {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
               <!-- Tin mới cập nhật -->
               <div class="bg-white rounded-lg shadow p-5 flex flex-col">
-                <h3
+                <h1
                   class="text-lg font-bold text-gray-900 border-l-4 border-red-500 pl-3 mb-4 uppercase"
                 >
                   Tin tức mới cập nhật
-                </h3>
+                </h1>
                 <div class="mb-4">
                   <img
                     src="/images/cong_chung_di_chuc.png"
@@ -177,59 +199,68 @@ onMounted(() => {
 
               <!-- Câu hỏi thường gặp -->
               <div class="bg-white rounded-lg shadow p-5 flex flex-col">
-                <h3
+                <h1
                   class="text-lg font-bold text-gray-900 border-l-4 border-red-500 pl-3 mb-4 uppercase"
                 >
                   Câu hỏi thường gặp
-                </h3>
+                </h1>
 
-                <div class="mb-4">
-                  <img
-                    src="/images/cong_chung_di_chuc.png"
-                    alt="câu hỏi thường gặp"
+                <div v-if="faqs[0]" class="mb-4">
+                  <NuxtImg
+                    :src="faqs[0].thumbnail"
+                    :alt="faqs[0].title"
                     class="w-full h-55 object-cover mb-2 rounded"
                   />
                   <p class="font-semibold text-gray-800">
-                    Thủ tục công chứng mua bán nhà đất cần những giấy tờ gì?
+                    {{ faqs[0].title }}
                   </p>
                 </div>
 
                 <ul class="space-y-3 text-sm text-gray-700">
                   <li
-                    class="flex gap-3 items-start border-b border-gray-300 py-2"
+                    v-for="(faq, index) in faqs.slice(1)"
+                    :key="faq.id"
+                    class="flex gap-3 items-start py-2"
+                    :class="{
+                      'border-b border-gray-300':
+                        index !== faqs.slice(1).length - 1,
+                    }"
                   >
-                    <img
-                      src="/images/cong_chung_di_chuc.png"
+                    <NuxtImg
+                      :src="faq.thumbnail"
+                      :alt="faq.title"
                       class="w-12 h-10 object-cover rounded"
                     />
                     <div>
                       <p class="text-gray-800">
-                        Di chúc không công chứng có được coi là hợp pháp?
+                        {{ truncateWords(faq.title, 15) }}
                       </p>
                     </div>
                   </li>
                 </ul>
 
                 <div class="mt-auto pt-5">
-                  <button
-                    class="text-red-600 border border-red-500 rounded-full px-4 py-1.5 text-sm hover:bg-red-50"
+                  <NuxtLink
+                    :to="'/cau-hoi-thuong-gap'"
+                    class="inline-flex items-center gap-2 text-red-600 border border-red-500 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
                   >
                     XEM THÊM
-                  </button>
+                    <ChevronRight class="w-4 h-4" />
+                  </NuxtLink>
                 </div>
               </div>
 
               <!-- Văn bản pháp luật -->
               <div class="bg-white rounded-lg shadow p-5 flex flex-col">
-                <h3
+                <h1
                   class="text-lg font-bold text-gray-900 border-l-4 border-red-500 pl-3 mb-4 uppercase"
                 >
                   Văn bản pháp luật
-                </h3>
+                </h1>
 
                 <div class="mb-4">
                   <img
-                    src="/images/cong_chung_di_chuc.png"
+                    src="/images/van-ban-luat.jpg"
                     alt="Văn bản pháp luật"
                     class="w-full h-55 object-cover rounded"
                   />
@@ -252,11 +283,13 @@ onMounted(() => {
                 </ul>
 
                 <div class="mt-auto pt-5">
-                  <button
-                    class="text-red-600 border border-red-500 rounded-full px-4 py-1.5 text-sm hover:bg-red-50"
+                  <NuxtLink
+                    :to="'van-ban-phap-luat'"
+                    class="inline-flex items-center gap-2 text-red-600 border border-red-500 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
                   >
                     XEM THÊM
-                  </button>
+                    <ChevronRight class="w-4 h-4" />
+                  </NuxtLink>
                 </div>
               </div>
             </div>

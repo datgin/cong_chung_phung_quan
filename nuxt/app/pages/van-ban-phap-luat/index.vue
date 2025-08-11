@@ -17,7 +17,7 @@ const legalDocuments = ref([]);
 
 const fetchLegalDocuments = async (page = 1) => {
   try {
-    const response = await getAll(`legal-documents?page=${page}`);
+    const response = await getAll(`legal-documents?page=${page}&type=paginate`);
 
     legalDocuments.value = response.data;
     current.value = response.current_page;

@@ -98,7 +98,7 @@ const defaultMenus = [
   { id: "gioi-thieu", name: "Giới thiệu", slug: "/gioi-thieu" },
   { id: "tinh-phi", name: "Tính phí", slug: "/tinh-phi" },
   { id: "van-ban-phap-luat", name: "Văn bản pháp luật", slug: "/van-ban-phap-luat" },
-  { id: "faq", name: "Câu hỏi thường gặp", slug: "/faq" },
+  { id: "cau-hoi-thuong-gap", name: "Câu hỏi thường gặp", slug: "/cau-hoi-thuong-gap" },
   { id: "lien-he", name: "Liên hệ", slug: "/lien-he" },
 ];
 

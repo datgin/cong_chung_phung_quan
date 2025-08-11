@@ -7,43 +7,46 @@ const { getOne } = useApi();
 const route = useRoute();
 const slug = route.params.slug;
 
-const LegalDocument = ref(null);
+const faq = ref(null);
 
-const fetchLegalDocument = async () => {
-  LegalDocument.value = await getOne(`legal-documents/${slug}`);
+const getFaq = async () => {
+  faq.value = await getOne(`faqs/${slug}`);
 };
 
 const items = computed(() => [
   {
-    label: "Văn bản pháp luật",
-    url: "/van-ban-phap-luat",
+    label: "Câu hỏi thường gặp",
+    url: "/cau-hoi-thuong-gap",
   },
   {
-    label: LegalDocument.value?.title,
+    label: faq.value?.title,
   },
 ]);
 
 watch(
-  () => LegalDocument.value,
-  (LegalDocument) => {
-    if (!LegalDocument) return;
+  () => faq.value,
+  (faq) => {
+    if (!faq) return;
 
-    useSeoMeta({
-      title: LegalDocument.title,
-      description: LegalDocument.meta_description,
-      ogTitle: LegalDocument.meta_title,
-      ogDescription: LegalDocument.meta_description,
-      ogImage: LegalDocument.thumbnail,
-    });
+    // useSeoMeta({
+    //   title: faq.title,
+    //   meta: [
+    //     {
+    //       name: "description",
+    //       content: faq.meta_description || "Mô tả mặc định",
+    //     },
+    //     { property: "og:title", content: faq.meta_title },
+    //     { property: "og:description", content: faq.meta_description },
+    //     { property: "og:image", content: faq.thumbnail },
+    //   ],
+    // });
   },
   { immediate: true }
 );
 
-onMounted(fetchLegalDocument);
+onMounted(getFaq);
 
-const safeContent = computed(() =>
-  sanitizeHTML(LegalDocument.value?.content || "")
-);
+const safeContent = computed(() => sanitizeHTML(faq.value?.content || ""));
 </script>
 
 <template>
@@ -59,17 +62,16 @@ const safeContent = computed(() =>
           <!-- Tiêu đề & ngày đăng -->
           <div class="space-y-1">
             <h1 class="text-2xl font-bold text-gray-900">
-              {{ LegalDocument?.title }}
+              {{ faq?.title }}
             </h1>
             <p class="text-sm text-gray-500">
-              Đăng cập nhật gần đây:
+              Đăng ngày:
               <span class="font-medium text-gray-600">
-                {{
-                  new Date(LegalDocument?.updated_at).toLocaleDateString(
-                    "vi-VN"
-                  )
-                }}
+                {{ new Date(faq?.created_at).toLocaleDateString("vi-VN") }}
               </span>
+            </p>
+            <p>
+              {{ faq?.excerpt }}
             </p>
           </div>
 

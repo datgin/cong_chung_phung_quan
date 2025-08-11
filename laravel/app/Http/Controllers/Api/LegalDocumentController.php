@@ -12,13 +12,13 @@ class LegalDocumentController extends Controller
 {
     public function index(Request $request)
     {
-        $page = $request->input('page', 'home');
+        $type = $request->input('type', 'limit');
 
         $query = LegalDocument::query()
             ->published()
             ->latest();
 
-        $legalDocument = $page === 'home'
+        $legalDocument = $type === 'limit'
             ? $query->limit(10)->get()
             : $query->paginate(15);
 
