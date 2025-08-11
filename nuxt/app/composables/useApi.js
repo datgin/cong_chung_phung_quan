@@ -18,7 +18,11 @@ export const useApi = () => {
       return data.value;
     } catch (err) {
       console.error(`[GET ALL] ${url} error:`, err);
-      error.value = err;
+      if (err.response?.status === 404) {
+        navigateTo("/__404__");
+      } else {
+        error.value = err;
+      }
       return null;
     } finally {
       loading.value = false;
@@ -37,7 +41,11 @@ export const useApi = () => {
       return data.value;
     } catch (err) {
       console.error(`[GET ONE] ${url} error:`, err);
-      error.value = err;
+      if (err.response?.status === 404) {
+        navigateTo("/__404__");
+      } else {
+        error.value = err;
+      }
       return null;
     } finally {
       loading.value = false;

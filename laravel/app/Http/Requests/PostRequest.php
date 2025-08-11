@@ -31,7 +31,7 @@ class PostRequest extends FormRequest
             'meta_title' => 'nullable|string|max:250',
             'meta_description' => 'nullable|string|max:400',
             'published' => 'required|in:0,1',
-            'published_at' => 'nullable|date_format:d/m/Y H:i|after_or_equal:today',
+            'published_at' => 'nullable|date_format:d/m/Y H:i',
             'thumbnail' => 'required|string|url',
         ];
     }

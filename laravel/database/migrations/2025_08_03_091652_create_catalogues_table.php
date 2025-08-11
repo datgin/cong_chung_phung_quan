@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->integer('position')->default(0);
             $table->boolean('published')->default(false);
+            $table->string('slider_title')->nullable();
+            $table->boolean('is_slider')->default(false);
 
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();

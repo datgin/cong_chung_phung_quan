@@ -11,15 +11,18 @@
         class="relative z-10 w-12 h-12 rounded-full object-contain"
       />
     </div>
-    <a href="tel:0966227979" class="text-red-600 font-bold text-md mx-2">
-      0966.22.7979
+    <a
+      :href="'tel:' + settingStore.setting?.hotline"
+      class="text-red-600 font-bold text-md mx-2"
+    >
+      {{ formatPhone(settingStore.setting?.hotline) }}
     </a>
   </div>
 
   <div class="fixed bottom-4 right-4 flex flex-col gap-3 z-50">
     <!-- Zalo -->
     <a
-      href="https://zalo.me/0964305701"
+      :href="'https://zalo.me/' + settingStore.setting?.url_zalo"
       target="_blank"
       class="shadow-lg rounded-full transition duration-300 ease-in-out hover:scale-110 animate-bounce"
     >
@@ -28,7 +31,7 @@
 
     <!-- Messenger -->
     <a
-      href="https://m.me/your_facebook_username"
+      :href="settingStore.setting?.url_messenger"
       target="_blank"
       class="shadow-lg rounded-full transition duration-300 ease-in-out hover:scale-110 animate-bounce"
     >
@@ -41,7 +44,7 @@
 
     <!-- Email -->
     <a
-      href="mailto:your@email.com"
+      :href="'mailto:' + settingStore.setting?.email"
       target="_blank"
       class="shadow-lg rounded-full transition duration-300 ease-in-out hover:scale-110 animate-bounce"
     >
@@ -69,6 +72,8 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import { useSettingStore } from "~/stores/setting";
+const settingStore = useSettingStore();
 
 const showTop = ref(false);
 

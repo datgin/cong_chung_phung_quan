@@ -4,8 +4,6 @@
     </a>
 @endisset
 
-@isset($urlDelete)
-    <a class="btn btn-sm btn-danger btn-delete" data-id="{{ $row->id }}">
-        <i class="fas fa-trash"></i>
-    </a>
-@endisset
+<a class="btn btn-sm btn-danger btn-delete" data-id="{{ $row->id }}">
+    <i class="fas fa-trash"></i>
+</a>

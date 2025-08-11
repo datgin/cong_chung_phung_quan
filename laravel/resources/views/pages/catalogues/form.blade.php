@@ -98,6 +98,14 @@
                             placeholder="thứ tự" />
                     </x-card>
 
+                    <x-card title="Tiêu đề slider">
+                        <x-input name="slider_title" value="{{ optional($catalogue)->slider_title }}" placeholder="tiêu đề slider"/>
+                    </x-card>
+
+                    <x-card title="Dùng làm slider?">
+                        <x-switch-checkbox name="is_slider" :checked="optional($catalogue)->is_slider ?? false" />
+                    </x-card>
+
                 </div>
             </div>
 

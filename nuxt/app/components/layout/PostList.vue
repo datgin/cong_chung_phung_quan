@@ -1,13 +1,13 @@
 <template>
   <div
-    v-for="post in props.posts"
+    v-for="post in posts"
     :key="post.id"
     class="bg-gray-50 overflow-hidden shadow-sm hover:shadow-md transition"
   >
-    <NuxtLink :to="`/news/${post.slug}`" class="block group">
-      <div class="h-36 sm:h-40 md:h-48 overflow-hidden">
+    <NuxtLink :to="`/${post.catalogue?.slug}/${post.slug}`" class="block group">
+      <div class="h-60 sm:h-40 md:h-48 overflow-hidden">
         <NuxtImg
-          :src="post.image"
+          :src="post.thumbnail"
           :alt="post.title"
           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
@@ -35,7 +35,7 @@
 <script setup>
 import { CalendarDays } from "lucide-vue-next";
 
-const props = defineProps({
+defineProps({
   posts: { type: Array, default: () => [] },
 });
 </script>

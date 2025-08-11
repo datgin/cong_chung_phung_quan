@@ -1,8 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\CatalogueController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\{
+    CatalogueController,
+    LegalDocumentController,
+    PostController,
+    SettingController
+};
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +20,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function () {
-    return response()->json([
-        'success' => true,
-        'message' => 'Call api thành công.'
-    ]);
-});
-
 Route::get('catalogues', [CatalogueController::class, 'index']);
 Route::get('catalogues/{slug}', [CatalogueController::class, 'show']);
+
+
+Route::get('settings', [SettingController::class, 'show']);
+
+Route::prefix('posts')
+    ->controller(PostController::class)
+    ->group(function () {
+        Route::get('/',  'index');
+        Route::get('latest', 'latest');
+        Route::get('slider',  'getSliderPosts');
+        Route::get('/{slug}',  'show');
+    });
+
+Route::prefix('legal-documents')
+    ->controller(LegalDocumentController::class)
+    ->group(function () {
+        Route::get('/', 'index');
+        Route::get('download/{file}', 'downloadFile');
+        Route::get('{slug}', 'show');
+    });

@@ -14,7 +14,7 @@
     <div class="position-relative">
 @endif
 
-<input type="{{ $type }}" id="{{ $id }}" name="{{ $name }}"
+<input type="{{ $type }}" id="{{ $id ?? $name }}" name="{{ $name }}"
     class="form-control {{ $class }}" placeholder="Nhập {{ strtolower($placeholder ?? $label) }}"
     value="{{ $value }}" @disabled($disabled)>
 

@@ -266,3 +266,82 @@ table th {
     color: #999;
     cursor: not-allowed;
 }
+
+.logo-box {
+    display: flex; /* Căn giữa nội dung */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    background-color: white; /* Optional: thêm nền nếu cần */
+    overflow: hidden; /* Giúp tránh tràn */
+}
+.logo-box img {
+    max-height: 100%; /* Tự co theo chiều cao khung */
+    max-width: 100%; /* Tự co theo chiều ngang */
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Không bị vỡ hay crop ảnh */
+    display: block;
+}
+
+/* Container switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 24px;
+}
+
+/* Ẩn input mặc định */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Thanh trượt */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+/* Nút tròn */
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+/* Khi input được check */
+.switch input:checked + .slider {
+    background-color: #f43f5e;
+}
+
+.switch input:focus + .slider {
+    box-shadow: 0 0 1px #f43f5e;
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(22px);
+}
+
+/* Bo tròn toàn bộ nếu dùng class 'round' */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round::before {
+    border-radius: 50%;
+}

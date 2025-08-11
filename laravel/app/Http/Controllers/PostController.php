@@ -35,7 +35,6 @@ class PostController extends Controller
                     view('components.operation', [
                         'row' => $row,
                         'urlEdit' => route('admin.posts.update', $row),
-                        'urlDelete' => "/admin/posts/{$row}/destroy",
                     ])->render()
                 )
                     ->editColumn(
@@ -75,6 +74,10 @@ class PostController extends Controller
     {
         return transaction(function () use ($request) {
             $credentials = $request->validated();
+
+            if ($request->filled('published_at')) {
+                $credentials['published_at'] = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $request->input('published_at'))->format('Y-m-d H:i:s');
+            }
 
             Post::create($credentials);
 
@@ -116,10 +119,14 @@ class PostController extends Controller
         return transaction(function () use ($request, $post) {
             $credentials = $request->validated();
 
+            if ($request->filled('published_at')) {
+                $credentials['published_at'] = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $request->input('published_at'))->format('Y-m-d H:i:s');
+            }
+
             $post->update($credentials);
 
             return successResponse(
-                message: 'TChỉnh sửa bài viết thành công.',
+                message: 'Chỉnh sửa bài viết thành công.',
                 code: Response::HTTP_OK,
                 isToastr: $request->input('submit_action') === 'save_exit'
             );

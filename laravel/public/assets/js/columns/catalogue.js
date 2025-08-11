@@ -17,11 +17,25 @@ const columns = [
         name: "slug",
         title: "ĐƯỜNG DẪN",
     },
+
     {
         data: "position",
         name: "position",
         title: "THỨ TỰ",
         width: "10%",
+    },
+    {
+        data: "is_slider",
+        name: "is_slider",
+        title: "LÀM SLIDER",
+        width: "8%",
+        render: (data) => {
+            return data
+                ? '<span class="badge text-bg-success">Có</span>'
+                : '<span class="badge text-bg-danger">Không</span>';
+        },
+        orderable: false,
+        searchable: false,
     },
     {
         data: "published",

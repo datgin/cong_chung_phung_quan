@@ -62,7 +62,7 @@
 
                                 <div>
                                     @php
-                                        $date = now();
+                                        $date = optional($post)->created_at ?? now();
                                     @endphp
 
                                     <span style="color: #70757a;">
@@ -106,7 +106,7 @@
                             value="{{ optional($post)->published_at?->format('d/m/Y H:i') ?? date('d/m/Y H:i') }}" />
                     </x-card>
 
-                    <x-card title="Trạng thái">
+                    <x-card title="Danh mục">
                         <x-select name="catalogue_id" value="{{ optional($post)->catalogue_id }}" :options="$catalogues"
                             placeholder="danh mục bài viết" />
                     </x-card>

@@ -33,7 +33,6 @@ class CatalogueController extends Controller
                     view('components.operation', [
                         'row' => $row,
                         'urlEdit' => route('admin.catalogues.update', $row),
-                        'urlDelete' => "/admin/catalogues/{$row}/destroy",
                     ])->render()
 
                 )->editColumn('id', fn($row) => $row->id . ' | <small>' . $row->created_at->format('d/m/Y') . '</small>'),
@@ -60,6 +59,10 @@ class CatalogueController extends Controller
     {
         return transaction(function () use ($request) {
             $credentials = $request->validated();
+
+            if ($request->filled('is_slider')) {
+                Catalogue::where('is_slider', true)->update(['is_slider' => false]);
+            }
 
             Catalogue::create($credentials);
 
@@ -97,6 +100,10 @@ class CatalogueController extends Controller
         return transaction(function () use ($request, $catalogue) {
             $credentials = $request->validated();
 
+            if ($request->filled('is_slider') && !$catalogue->is_slider) {
+                Catalogue::where('is_slider', true)->update(['is_slider' => false]);
+            }
+
             $catalogue->update($credentials);
 
             return successResponse(
@@ -106,5 +113,4 @@ class CatalogueController extends Controller
             );
         });
     }
-
 }

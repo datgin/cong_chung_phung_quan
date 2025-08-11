@@ -1,86 +1,83 @@
 <script setup>
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Autoplay } from "swiper/modules";
+import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/effect-fade";
 // import { ClientOnly } from "#components";
 import { Download } from "lucide-vue-next";
-// const { $api } = useNuxtApp();
 
-// const fetchData = async () => {
-//   try {
-//     const response = await $api.get("/test");
-//     console.log(response.data);
-//   } catch (err) {
-//     console.error("Lỗi gọi API:", err);
-//   }
-// };
-
-// onMounted(() => {
-//   fetchData();
-// });
+const { getAll } = useApi();
+const { $api } = useNuxtApp();
 
 const banners = [
   "/images/banner1920x500.jpg",
-  "/images/banner1920x500.jpg",
+  "/images/17492023546842b5b259e8f.jpg",
   "/images/banner1920x500.jpg",
 ];
 
-const posts = [
-  {
-    id: 1,
-    title: "Hướng dẫn học Nuxt 3 bài bản",
-    slug: "hoc-nuxt-3-bai-ban",
-    image: "/images/cong_chung_di_chuc.png",
-    category: "Lập trình",
-    published_at: "2025-07-29",
-    excerpt:
-      "Bài viết hướng dẫn bạn làm quen với Nuxt 3 một cách dễ hiểu và dễ áp dụng.",
-  },
-  {
-    id: 2,
-    title: "Top 10 font chữ đẹp cho website hiện đại",
-    slug: "font-chu-dep-cho-website",
-    image: "/images/cong_chung_di_chuc.png",
-    category: "SEO",
-    published_at: "2025-07-25",
-    excerpt:
-      "Gợi ý các font chữ hiện đại, tinh tế, dễ đọc cho thiết kế UI web hiện nay.",
-  },
-  {
-    id: 3,
-    title: "Top 10 font chữ đẹp cho website hiện đại",
-    slug: "font-chu-dep-cho-website",
-    image: "/images/cong_chung_di_chuc.png",
-    category: "Thiết kế",
-    published_at: "2025-07-25",
-    excerpt:
-      "Gợi ý các font chữ hiện đại, tinh tế, dễ đọc cho thiết kế UI web hiện nay.",
-  },
-  {
-    id: 4,
-    title: "Top 10 font chữ đẹp cho website hiện đại",
-    slug: "font-chu-dep-cho-website",
-    image: "/images/cong_chung_di_chuc.png",
-    category: "Tin tức",
-    published_at: "2025-07-25",
-    excerpt:
-      "Gợi ý các font chữ hiện đại, tinh tế, dễ đọc cho thiết kế UI web hiện nay.",
-  },
-];
+const modules = [Autoplay, Pagination, Navigation, EffectFade];
 
-// const config = useRuntimeConfig();
-// console.log(config.public.apiBase);
+const posts = ref([]);
+
+const legalDocuments = ref([]);
+
+const fetchLegalDocuments = async () => {
+  legalDocuments.value = await getAll("legal-documents?page=home");
+};
+
+const fetchPosts = async () => {
+  posts.value = await getAll("posts");
+};
+
+const downloadFile = async (file) => {
+  try {
+    const response = await $api.get(`legal-documents/download/${file}`, {
+      responseType: "blob",
+    });
+
+    // Tạo URL từ blob data
+    const blob = new Blob([response.data]);
+    const downloadUrl = window.URL.createObjectURL(blob);
+
+    // Tạo thẻ <a> để tự động click tải file
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+
+    // Gán tên file, bạn có thể đặt tĩnh hoặc lấy từ response header Content-Disposition nếu có
+    link.download = file;
+
+    document.body.appendChild(link);
+    link.click();
+
+    // Dọn dẹp DOM và revoke URL
+    link.remove();
+    window.URL.revokeObjectURL(downloadUrl);
+  } catch (xhr) {
+    console.log(xhr);
+    message.error("Lỗi tải tài liệu!");
+  }
+};
+
+onMounted(() => {
+  fetchLegalDocuments();
+  fetchPosts();
+});
 </script>
 
 <template>
   <div>
     <div class="relative w-full md:h-[500px] h-[110px]">
       <Swiper
-        :modules="[Autoplay]"
+        :modules="modules"
         :slides-per-view="1"
         :loop="true"
-        :autoplay="{ delay: 3000 }"
+        :autoplay="{ delay: 3000, disableOnInteraction: false }"
+        effect="fade"
+        pagination
+        navigation
         class="w-full h-full"
       >
         <SwiperSlide
@@ -115,7 +112,7 @@ const posts = [
         <div
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
         >
-          <NewsItem :posts="posts" />
+          <PostList :posts="posts" />
         </div>
 
         <!-- Xem thêm -->
@@ -145,7 +142,7 @@ const posts = [
                   <img
                     src="/images/cong_chung_di_chuc.png"
                     alt="tin mới"
-                    class="w-full h-55 object-cover mb-2"
+                    class="w-full h-55 object-cover mb-2 rounded"
                   />
                   <p class="font-semibold text-gray-800">
                     Hợp đồng ủy quyền: Rủi ro tiềm ẩn và giải pháp từ góc nhìn
@@ -159,31 +156,7 @@ const posts = [
                   >
                     <img
                       src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover"
-                    />
-                    <div>
-                      <p class="text-gray-800">
-                        Tuyển dụng công chứng viên – Làm việc tại Hà Nội
-                      </p>
-                    </div>
-                  </li>
-                  <li
-                    class="flex gap-3 items-start border-b border-gray-300 py-2"
-                  >
-                    <img
-                      src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover"
-                    />
-                    <div>
-                      <p class="text-gray-800">
-                        Tuyển dụng công chứng viên – Làm việc tại Hà Nội
-                      </p>
-                    </div>
-                  </li>
-                  <li class="flex gap-3 items-start py-2">
-                    <img
-                      src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover"
+                      class="w-12 h-10 object-cover rounded"
                     />
                     <div>
                       <p class="text-gray-800">
@@ -214,7 +187,7 @@ const posts = [
                   <img
                     src="/images/cong_chung_di_chuc.png"
                     alt="câu hỏi thường gặp"
-                    class="w-full h-40 object-cover mb-2"
+                    class="w-full h-55 object-cover mb-2 rounded"
                   />
                   <p class="font-semibold text-gray-800">
                     Thủ tục công chứng mua bán nhà đất cần những giấy tờ gì?
@@ -227,31 +200,7 @@ const posts = [
                   >
                     <img
                       src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover"
-                    />
-                    <div>
-                      <p class="text-gray-800">
-                        Di chúc không công chứng có được coi là hợp pháp?
-                      </p>
-                    </div>
-                  </li>
-                  <li
-                    class="flex gap-3 items-start border-b border-gray-300 py-2"
-                  >
-                    <img
-                      src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover "
-                    />
-                    <div>
-                      <p class="text-gray-800">
-                        Di chúc không công chứng có được coi là hợp pháp?
-                      </p>
-                    </div>
-                  </li>
-                  <li class="flex gap-3 items-start py-2">
-                    <img
-                      src="/images/cong_chung_di_chuc.png"
-                      class="w-12 h-10 object-cover "
+                      class="w-12 h-10 object-cover rounded"
                     />
                     <div>
                       <p class="text-gray-800">
@@ -282,40 +231,23 @@ const posts = [
                   <img
                     src="/images/cong_chung_di_chuc.png"
                     alt="Văn bản pháp luật"
-                    class="w-full h-40 object-cover"
+                    class="w-full h-55 object-cover rounded"
                   />
                 </div>
 
                 <ul class="divide-y divide-gray-200 text-sm text-gray-800">
                   <li
+                    v-for="legalDocument in legalDocuments"
+                    :key="legalDocument.id"
                     class="flex justify-between py-2 items-center hover:text-blue-600 cursor-pointer"
                   >
-                    Luật kinh doanh bất động sản 2014
-                    <Download class="w-4 h-4" />
-                  </li>
-                  <li
-                    class="flex justify-between py-2 items-center hover:text-blue-600 cursor-pointer"
-                  >
-                    Luật quốc tịch 2008
-                    <Download class="w-4 h-4" />
-                  </li>
-                  <li
-                    class="flex justify-between py-2 items-center hover:text-blue-600 cursor-pointer"
-                  >
-                    Luật tố tụng dân sự 2015
-                    <Download class="w-4 h-4" />
-                  </li>
-                  <li
-                    class="flex justify-between py-2 items-center hover:text-blue-600 cursor-pointer"
-                  >
-                    Luật Đất Đai 2013
-                    <Download class="w-4 h-4" />
-                  </li>
-                  <li
-                    class="flex justify-between py-2 items-center hover:text-blue-600 cursor-pointer"
-                  >
-                    Bộ luật Dân sự 2015
-                    <Download class="w-4 h-4" />
+                    <NuxtLink :to="`van-ban-phap-luat/${legalDocument.slug}`">
+                      {{ legalDocument.title }}
+                    </NuxtLink>
+                    <Download
+                      class="w-4 h-4"
+                      @click="downloadFile(legalDocument.file)"
+                    />
                   </li>
                 </ul>
 

@@ -15,17 +15,25 @@ class Catalogue extends Model
         'slug',
         'position',
         'published',
+        'slider_title',
+        'is_slider',
         'meta_title',
         'meta_description'
     ];
 
     protected $casts = [
-        'published' => 'boolean'
+        'published' => 'boolean',
+        'is_slider' => 'boolean'
     ];
 
     public function scopePublished($query)
     {
         return $query->where('published', true);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 
     public static function boot()

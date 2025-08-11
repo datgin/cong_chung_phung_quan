@@ -2,6 +2,8 @@ ar
 <script setup>
 import { Phone, MapPin, Search, AlignJustify, X } from "lucide-vue-next";
 import { nextTick, ref } from "vue";
+import { useSettingStore } from "~/stores/setting";
+const settingStore = useSettingStore();
 
 const emit = defineEmits(["toggle-menu"]);
 
@@ -44,7 +46,7 @@ const openBoxSearch = async () => {
         <div class="hidden md:flex justify-between items-center w-full">
           <div class="w-[30%]">
             <NuxtImg
-              src="/images/logo.png"
+              :src="settingStore.setting?.logo"
               alt="logo"
               class="object-contain w-full"
             />
@@ -56,8 +58,13 @@ const openBoxSearch = async () => {
                 <Phone class="w-4 h-4 text-red-700" />
               </div>
               <div>
-                <p><strong>Hotline: 0966.22.7979</strong></p>
-                <p>Email: ccnguyenhue165@gmail.com</p>
+                <p>
+                  <strong
+                    >Hotline:
+                    {{ formatPhone(settingStore.setting?.hotline) }}</strong
+                  >
+                </p>
+                <p>Email: {{ settingStore.setting?.email }}</p>
               </div>
             </div>
           </div>
@@ -69,8 +76,7 @@ const openBoxSearch = async () => {
               </div>
               <div>
                 <p>
-                  <strong>Địa chỉ: </strong> 165 phố Giảng Võ, phường Cát Linh,
-                  quận Đống Đa, Tp Hà Nội.
+                  <strong>Địa chỉ: </strong> {{ settingStore.setting?.address }}
                 </p>
               </div>
             </div>

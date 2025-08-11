@@ -4,8 +4,11 @@
  */
 
 CKEDITOR.editorConfig = function (config) {
+    console.log(filemanager.ckBrowseUrl);
+
     config.filebrowserBrowseUrl = "/admin/filemanager?type=Files";
-    config.filebrowserImageBrowseUrl = filemanager.ckBrowseUrl;
+    config.filebrowserImageBrowseUrl =
+        "/admin/filemanager/" + filemanager.ckBrowseUrl;
     config.filebrowserUploadUrl = "/admin/filemanager/upload?type=Files";
     config.filebrowserImageUploadUrl = "/admin/filemanager/upload?type=Images";
 };

@@ -217,7 +217,6 @@ const navigationItems = ref([
   { href: "/category/cong-nghe", label: "Thủ tục công chứng" },
   { href: "/category/cong-nghe", label: "Danh mục công chứng" },
   { href: "/category/cong-nghe", label: "Tính phí" },
-  { href: "/category/cong-nghe", label: "Thủ tục cấp sổ đỏ" },
   { href: "/category/cong-nghe", label: "Văn bản pháp luật" },
   { href: "/category/cong-nghe", label: "Tin tức" },
 ]);

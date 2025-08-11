@@ -144,10 +144,10 @@ if (!function_exists('deleteImage')) {
 }
 
 if (!function_exists('showImage')) {
-    function showImage(?string $absoluteUrl, $isFullPath = false): string
+    function showImage(?string $absoluteUrl, $isFullPath = false, $isEmptyPath = false): ?string
     {
         if (!$absoluteUrl) {
-            return asset('assets/images/image-default.png');
+            return !$isEmptyPath ? asset('assets/images/image-default.png') : null;
         }
 
         $parsedPath = parse_url($absoluteUrl, PHP_URL_PATH);
@@ -160,6 +160,6 @@ if (!function_exists('showImage')) {
             return $isFullPath ? $storage->url($absoluteUrl) : $absoluteUrl;
         }
 
-        return asset('assets/images/image-default.png');
+        return !$isEmptyPath ? asset('assets/images/image-default.png') : null;
     }
 }

@@ -3,34 +3,49 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Autoplay } from "swiper/modules";
+import { useSettingStore } from "~/stores/setting";
 
+const settingStore = useSettingStore();
 const modules = [Navigation, Autoplay];
+const { getAll } = useApi();
+const latestPosts = ref([]);
+const slides = ref([]);
+const sliderTitle = ref("");
 
-// Props
-defineProps({
-  slides: { type: Array, default: () => [] },
-  latestPosts: { type: Array, default: () => [] },
+const fetchPostLatest = async () => {
+  latestPosts.value = await getAll("posts/latest");
+};
+
+const fetchSliderPosts = async () => {
+  const response = await getAll("posts/slider");
+  slides.value = response.posts;
+  sliderTitle.value = response.catalogue.slider_title;
+};
+
+onMounted(() => {
+  fetchPostLatest();
+  fetchSliderPosts();
 });
 </script>
 
 <template>
-  <a href="https://congchungnguyenhue.com/thu-tuc-cap-so-do.html">
+  <a :href="settingStore.setting?.link_banner || 'javascript:void(0)'">
     <img
-      src="https://image.congchungnguyenhue.com/300x350/2025/01/09/sang-ten-so-do_0901205922.jpg"
-      alt="Sang tên sổ đỏ"
+      :src="settingStore.setting?.banner"
+      :alt="settingStore.setting?.alt_banner"
       class="w-full h-auto"
     />
   </a>
 
   <div class="w-full max-w-sm mt-5 mb-3">
     <h2 class="text-lg font-bold text-gray-900 mb-2">
-      <span class="text-red-600 font-bold mr-1">|</span>CÔNG CHỨNG
+      <span class="text-red-600 font-bold mr-1">|</span> {{ sliderTitle }}
     </h2>
 
     <Swiper
       :modules="modules"
       :slides-per-view="1"
-      :loop="true"
+      :loop="slides.length > 2"
       :breakpoints="{
         640: { slidesPerView: 1 },
         768: { slidesPerView: 1 },
@@ -41,8 +56,12 @@ defineProps({
       class="overflow-hidden"
     >
       <SwiperSlide v-for="(item, index) in slides" :key="index">
-        <a :href="item.url">
-          <img :src="item.image" alt="" class="w-full h-auto object-cover" />
+        <a :href="123">
+          <img
+            :src="item.thumbnail"
+            alt=""
+            class="w-full h-auto object-cover"
+          />
           <p
             class="mt-2 text-sm font-semibold text-black leading-snug hover:text-red-600 transition"
           >
@@ -71,16 +90,24 @@ defineProps({
       TIN MỚI NHẤT
     </h2>
 
-    <div v-for="(item, index) in latestPosts" :key="index" class="flex gap-2">
-      <a :href="item.url" class="w-[80px] shrink-0">
-        <img :src="item.image" alt="" class="w-full h-[60px] object-cover" />
-      </a>
-      <a
-        :href="item.url"
+    <div v-for="item in latestPosts" :key="item.id" class="flex gap-2">
+      <NuxtLink
+        :to="`/${item.catalogue?.slug}/${item.slug}`"
+        class="w-[80px] shrink-0"
+      >
+        <img
+          :src="item.thumbnail"
+          alt=""
+          class="w-full h-[60px] object-cover"
+        />
+      </NuxtLink>
+
+      <NuxtLink
+        :to="`/${item.catalogue?.slug}/${item.slug}`"
         class="text-sm font-medium leading-tight text-black hover:text-red-600 transition"
       >
         {{ item.title }}
-      </a>
+      </NuxtLink>
     </div>
   </div>
 </template>

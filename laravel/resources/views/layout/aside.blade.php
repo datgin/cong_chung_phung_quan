@@ -4,20 +4,12 @@
      <div id="sidebar-menu">
 
          <div class="logo-box">
-             <a class='logo logo-light' href='index.html'>
-                 <span class="logo-sm">
-                     <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
-                 </span>
-                 <span class="logo-lg">
-                     <img src="{{ asset('assets/images/logo-light.png') }}" alt="" height="24">
-                 </span>
-             </a>
              <a class='logo logo-dark' href='index.html'>
                  <span class="logo-sm">
                      <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
                  </span>
                  <span class="logo-lg">
-                     <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="24">
+                     <img src="{{ showImage($setting->logo) }}" alt="" height="24">
                  </span>
              </a>
          </div>
@@ -62,8 +54,19 @@
                      <span> Quản lý bài viết </span>
                  </a>
              </li>
+             <li>
+                 <a class='tp-link' href='/admin/legal-documents'>
+                     <i data-feather="book"></i>
+                     <span> Văn bản pháp luật </span>
+                 </a>
+             </li>
 
-
+             <li>
+                 <a class='tp-link' href='/admin/settings'>
+                     <i data-feather="settings"></i>
+                     <span> Cấu hình chung </span>
+                 </a>
+             </li>
          </ul>
 
      </div>

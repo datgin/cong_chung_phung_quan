@@ -13,7 +13,11 @@ class CatalogueController extends Controller
      */
     public function index()
     {
-        $catalogues = Catalogue::query()->published()->orderBy('position')->get();
+        $catalogues = Catalogue::query()
+            ->published()
+            // ->whereHas('posts')
+            ->orderBy('position')
+            ->get();
 
         return successResponse(data: $catalogues);
     }
@@ -50,5 +54,16 @@ class CatalogueController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function slider()
+    {
+        $catalogue = Catalogue::where('is_slider', true)->first();
+
+        if (!$catalogue) {
+            return errorResponse("Không có danh mục slider nào được chọn!", 404);
+        }
+
+        return successResponse(data: $catalogue);
     }
 }

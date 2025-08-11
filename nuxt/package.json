@@ -20,6 +20,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.11.0",
+    "dompurify": "^3.2.6",
     "eslint": "^9.32.0",
     "lucide-vue-next": "^0.534.0",
     "nuxt": "^4.0.1",

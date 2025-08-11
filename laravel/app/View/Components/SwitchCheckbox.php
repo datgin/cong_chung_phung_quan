@@ -11,7 +11,7 @@ class SwitchCheckbox extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public bool $checked = false, public ?string $id = null)
+    public function __construct(public string $name, public bool $checked = false, public ?string $id = null)
     {
         //
     }

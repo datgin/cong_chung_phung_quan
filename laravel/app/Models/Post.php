@@ -41,4 +41,8 @@ class Post extends Model
             $model->slug = Str::slug($model->title);
         });
     }
+    public function scopePublished($query)
+    {
+        return $query->where('published', true);
+    }
 }
