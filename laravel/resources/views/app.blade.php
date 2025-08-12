@@ -9,7 +9,7 @@
 
     @include('layout.style')
 
-     @FilemanagerScript
+    @FilemanagerScript
 </head>
 
 <!-- body start -->

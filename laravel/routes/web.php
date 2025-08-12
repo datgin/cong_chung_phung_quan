@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BulkActionController;
 use App\Http\Controllers\CatalogueController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\LegalDocumentController;
@@ -92,6 +93,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('create', 'store')->name('store');
                 Route::get('{faq}/edit', 'edit')->name('edit');
                 Route::put('{faq}/edit', 'update')->name('update');
+            });
+
+        Route::prefix('contacts')
+            ->controller(ContactController::class)
+            ->name('contacts.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('update-mail-contact', 'updateMailContact');
             });
     });
 });

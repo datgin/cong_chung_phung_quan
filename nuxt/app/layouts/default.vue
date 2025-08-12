@@ -19,14 +19,22 @@ const toggleMenu = (val) => {
 watch(
   () => settingStore.setting,
   (setting) => {
+    if (!setting) return;
+
     useHead({
       link: [{ rel: "icon", type: "image/png", href: setting.favicon }],
     });
 
     useSeoMeta({
+      title: setting.title,
+      description: setting.meta_description,
+      ogTitle: setting.meta_title,
+      ogDescription: setting.meta_description,
+      ogImage: setting.logo,
       ogUrl: url.href,
     });
-  }
+  },
+  { immediate: true }
 );
 </script>
 

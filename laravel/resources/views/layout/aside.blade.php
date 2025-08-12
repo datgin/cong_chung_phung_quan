@@ -66,6 +66,12 @@
                      <span> Câu hỏi thường gặp </span>
                  </a>
              </li>
+             <li>
+                 <a class='tp-link' href='/admin/contacts'>
+                     <i data-feather="inbox"></i>
+                     <span> Yêu cầu liên hệ </span>
+                 </a>
+             </li>
 
              <li>
                  <a class='tp-link' href='/admin/settings'>

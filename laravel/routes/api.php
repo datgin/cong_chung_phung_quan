@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\{
     CatalogueController,
+    ContactController,
     FaqController,
     LegalDocumentController,
     PostController,
@@ -50,3 +51,5 @@ Route::prefix('faqs')
         Route::get('/', 'index');
         Route::get('{slug}', 'show');
     });
+
+Route::post('contacts/send', [ContactController::class, 'send']);

@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     "nuxt-swiper",
     "@ant-design-vue/nuxt",
     "@pinia/nuxt",
+    "@vee-validate/nuxt",
   ],
   vite: {
     plugins: [tailwindcss()],

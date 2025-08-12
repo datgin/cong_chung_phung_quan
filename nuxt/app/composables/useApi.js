@@ -61,8 +61,8 @@ export const useApi = () => {
       return res.data;
     } catch (err) {
       console.error(`[POST] ${url} error:`, err);
-      error.value = err;
-      return null;
+      error.value = err.response.data;
+      throw err.response.data;
     } finally {
       loading.value = false;
     }

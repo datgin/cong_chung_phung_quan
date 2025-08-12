@@ -16,6 +16,9 @@ const dataTables = (
     const $table = $(tableId);
     $table.empty(); // clear old headers if re-render
 
+    let start = moment();
+    let end = moment().add(1, "month");
+
     // Generate <thead>
     let thead = "<thead><tr>";
     if (hasDtControl) thead += "<th></th>";
@@ -82,6 +85,7 @@ const dataTables = (
                 });
 
                 const dateRange = $("#dateRangePicker").val();
+
                 if (dateRange) {
                     const [startDate, endDate] = dateRange.split(" - ");
                     d.start_date = moment(startDate, "DD/MM/YYYY").format(
@@ -90,6 +94,9 @@ const dataTables = (
                     d.end_date = moment(endDate, "DD/MM/YYYY").format(
                         "YYYY-MM-DD"
                     );
+                } else {
+                    d.start_date = start.format("YYYY-MM-DD");
+                    d.end_date = end.format("YYYY-MM-DD");
                 }
             },
         },
@@ -196,19 +203,59 @@ const dataTables = (
     if (hasDateRange) {
         const $target = $(".dt-layout-cell.dt-layout-start .dt-length");
         const datePickerHtml = `
-            <div class="d-flex align-items-center mb-2 ms-2">
+            <div class="d-flex align-items-center ms-2">
                 <input type="text" id="dateRangePicker" name="date_range" class="form-control form-control-sm" placeholder="Chọn khoảng ngày" />
             </div>`;
         $target.after(datePickerHtml);
 
         $("#dateRangePicker").daterangepicker({
-            autoUpdateInput: false,
+            startDate: start,
+            endDate: end,
+            autoUpdateInput: true,
             locale: {
-                cancelLabel: "Clear",
-                applyLabel: "Áp dụng",
                 format: "DD/MM/YYYY",
+                cancelLabel: "Hủy",
+                applyLabel: "Áp dụng",
+                customRangeLabel: "Tùy chọn",
+                daysOfWeek: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+                monthNames: [
+                    "Tháng 1",
+                    "Tháng 2",
+                    "Tháng 3",
+                    "Tháng 4",
+                    "Tháng 5",
+                    "Tháng 6",
+                    "Tháng 7",
+                    "Tháng 8",
+                    "Tháng 9",
+                    "Tháng 10",
+                    "Tháng 11",
+                    "Tháng 12",
+                ],
+                firstDay: 1,
+            },
+            ranges: {
+                "Hôm nay": [moment(), moment()],
+                "Ngày mai": [moment().add(1, "days"), moment().add(1, "days")],
+                "Tuần này": [moment().startOf("week"), moment().endOf("week")],
+                "Tuần sau": [
+                    moment().add(1, "week").startOf("week"),
+                    moment().add(1, "week").endOf("week"),
+                ],
+                "Tháng này": [
+                    moment().startOf("month"),
+                    moment().endOf("month"),
+                ],
+                "Tháng sau": [
+                    moment().add(1, "month").startOf("month"),
+                    moment().add(1, "month").endOf("month"),
+                ],
             },
         });
+
+        $("#dateFilter").val(
+            start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY")
+        );
 
         $("#dateRangePicker").on("cancel.daterangepicker", function () {
             $(this).val("");
