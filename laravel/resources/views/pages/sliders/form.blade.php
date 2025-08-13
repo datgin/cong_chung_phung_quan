@@ -51,23 +51,23 @@
                         <div class="row gy-2">
                             <div class="col-md-12">
                                 <label for="loop" class="form-label fw-semibold me-3">Vòng lặp</label>
-                                <x-switch-checkbox name="loop" :checked="optional($slider)->loop" />
+                                <x-switch-checkbox name="loop" :checked="optional($slider)->loop ?? false" />
                             </div>
 
                             <div class="col-md-12">
                                 <label for="autoplay" class="form-label fw-semibold me-3">Tự động chạy</label>
-                                <x-switch-checkbox name="autoplay" :checked="optional($slider)->loop" />
+                                <x-switch-checkbox name="autoplay" :checked="optional($slider)->autoplay ?? false" />
                             </div>
 
                             <div class="col-md-12">
                                 <label for="pagination" class="form-label fw-semibold me-3">Hiển thị nút chuyển
                                     trang</label>
-                                <x-switch-checkbox name="pagination" :checked="optional($slider)->loop" />
+                                <x-switch-checkbox name="pagination" :checked="optional($slider)->pagination ?? false" />
                             </div>
 
                             <div class="col-md-12">
                                 <label for="navigation" class="form-label fw-semibold me-3">Hiển thị nút điều hướng</label>
-                                <x-switch-checkbox name="navigation" :checked="optional($slider)->loop" />
+                                <x-switch-checkbox name="navigation" :checked="optional($slider)->navigation ?? false" />
                             </div>
 
                             <div class="col-md-12">
