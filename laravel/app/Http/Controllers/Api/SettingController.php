@@ -12,6 +12,8 @@ class SettingController extends Controller
     {
         $setting = Setting::query()->firstOrCreate();
 
+        $setting->map =  preg_match('/src="([^"]+)"/', $setting->map, $matches) ? $matches[1] : null;
+
         return successResponse(data: $setting);
     }
 }

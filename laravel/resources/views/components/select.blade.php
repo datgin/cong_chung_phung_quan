@@ -1,5 +1,5 @@
 @if ($label)
-    <label for="{{ $id }}" class="form-label fw-medium {{ $required ? 'required' : '' }}">
+    <label for="{{ $id }}" class="form-label fw-semibold {{ $required ? 'required' : '' }}">
         {{ $label }}
     </label>
 @endif

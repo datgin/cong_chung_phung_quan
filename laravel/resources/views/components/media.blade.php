@@ -1,4 +1,5 @@
 @php
+
     $uid = uniqid('media_');
     $isSingle = !$multiple;
 
@@ -8,24 +9,6 @@
         ? 'upload-preview w-100 h-100 position-relative'
         : 'upload-preview d-flex flex-wrap gap-3 justify-content-start align-items-start w-100 h-100 position-relative';
 @endphp
-
-{{-- <div id="{{ $uid }}_upload_wrapper" class="btn-open-media upload-glow-border {{ $wrapperClass }}"
-    data-name="{{ $name }}" data-multiple="{{ $multiple ? 'true' : 'false' }}"
-    data-selected='@json($selected)' data-uid="{{ $uid }}">
-
-    <div class="upload-wrapper rounded p-3 bg-light text-center d-flex justify-content-center align-items-center"
-        style="cursor: pointer; {{ $isSingle ? 'width: 100%; aspect-ratio: 1 / 1;' : 'min-height: 220px;' }}">
-
-        <div id="{{ $uid }}_upload-preview" class="{{ $previewClass }}"></div>
-
-        <div id="{{ $uid }}_placeholder_text" class="placeholder-text text-muted text-center">
-            <i class="fas fa-cloud-upload-alt fs-3 d-block mb-2"></i>
-            Bấm để chọn ảnh
-        </div>
-    </div>
-
-    <div id="{{ $uid }}_selected-images-input" data-name="{{ $name }}"></div>
-</div> --}}
 
 <div id="{{ $uid }}_upload_wrapper" class="btn-open-media upload-glow-border {{ $wrapperClass }}"
     data-name="{{ $name }}" data-multiple="{{ $multiple ? 'true' : 'false' }}"

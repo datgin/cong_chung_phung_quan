@@ -60,6 +60,7 @@ class SettingRequest extends FormRequest
             'script_head'      => 'nullable|string',
             'script_body'      => 'nullable|string',
             'script_footer'    => 'nullable|string',
+            'working_time'    => 'nullable|string|max:255',
         ];
     }
 

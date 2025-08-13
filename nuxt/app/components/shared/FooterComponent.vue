@@ -27,7 +27,13 @@
                 </div>
                 <div class="text-sm">
                   <div class="text-white">Email</div>
-                  <div class="text-slate-400">contact@tin24h.vn</div>
+                  <div class="text-slate-400">
+                    <a
+                      :href="`mailto:${settingStore.setting?.email}`"
+                      class="underline"
+                      >{{ settingStore.setting?.email }}</a
+                    >
+                  </div>
                 </div>
               </div>
               <div
@@ -40,7 +46,14 @@
                 </div>
                 <div class="text-sm">
                   <div class="text-white">Hotline</div>
-                  <div class="text-slate-400">0123456789</div>
+                  <div class="text-slate-400">
+                    <a
+                      :href="`tel:${settingStore.setting?.hotline}`"
+                      class="underline"
+                    >
+                      {{ formatPhone(settingStore.setting?.hotline) }}
+                    </a>
+                  </div>
                 </div>
               </div>
               <div
@@ -53,7 +66,9 @@
                 </div>
                 <div class="text-sm">
                   <div class="text-white">Địa chỉ</div>
-                  <div class="text-slate-400">Hà Nội, Việt Nam</div>
+                  <div class="text-slate-400">
+                    {{ settingStore.setting?.address }}
+                  </div>
                 </div>
               </div>
               <div
@@ -66,7 +81,9 @@
                 </div>
                 <div class="text-sm">
                   <div class="text-white">Giờ làm việc</div>
-                  <div class="text-slate-400">8:00 - 17:00 (T2 - T6)</div>
+                  <div class="text-slate-400">
+                    {{ settingStore.setting?.working_time }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -75,19 +92,23 @@
           <!-- Social Media -->
           <div class="flex gap-4">
             <a
-              href="#"
+              v-if="settingStore.setting?.url_facebook"
+              :href="settingStore.setting?.url_facebook"
+              target="_blank"
               class="w-10 h-10 bg-slate-800 border border-gray-100/10 rounded-full flex items-center justify-center hover:bg-blue-700 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/25"
             >
               <Facebook class="w-5 h-5" />
             </a>
             <a
-              href="#"
+              v-if="settingStore.setting?.url_twitter"
+              :href="settingStore.setting?.url_twitter"
               class="w-10 h-10 bg-slate-800 border border-gray-100/10 rounded-full flex items-center justify-center hover:bg-sky-500 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-sky-500/25"
             >
               <Twitter class="w-5 h-5" />
             </a>
             <a
-              href="#"
+              v-if="settingStore.setting?.url_youtobe"
+              :href="settingStore.setting?.url_youtobe"
               class="w-10 h-10 bg-slate-800 border border-gray-100/10 rounded-full flex items-center justify-center hover:bg-red-700 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-red-500/25"
             >
               <Youtube class="w-5 h-5" />
@@ -121,7 +142,7 @@
         <!-- Tin tức nổi bật -->
         <div class="order-3">
           <h3 class="text-white font-semibold text-lg mb-6 relative">
-            Tin nổi bật
+            Tin mới
             <div
               class="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
             ></div>
@@ -153,13 +174,13 @@
               class="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500"
             ></div>
           </h3>
-          <div class=" overflow-hidden shadow-lg">
+          <div class="overflow-hidden shadow-lg">
             <iframe
               class="w-full h-64 sm:h-48 md:h-40 border-0"
               loading="lazy"
               allowfullscreen
               referrerpolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.840147099724!2d105.74601807505594!3d21.03812768061285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b230ba4e8f%3A0x6f1d08993adf46ae!2zSOG7kyBN4bqhaSBUaMOgbmggUXXDoW4gUXXhuq1tIFBow6F0IEjhu5lp!5e0!3m2!1svi!2s!4v1693203147704!5m2!1svi!2s"
+              :src="settingStore.setting?.map"
             ></iframe>
           </div>
         </div>
@@ -168,31 +189,13 @@
 
     <!-- Bottom Bar -->
     <div class="border-t border-slate-700/50 bg-slate-900/50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
         <div
-          class="flex flex-col md:flex-row justify-between items-center gap-4"
+          class="flex flex-col md:flex-row justify-center items-center gap-4"
         >
           <p class="text-slate-400 text-sm">
-            © 2025 <span class="text-white font-semibold">TIN24H</span>. All
-            rights reserved.
+            {{ settingStore.setting?.copyright }}
           </p>
-          <div class="flex items-center gap-6 text-sm text-slate-400">
-            <a
-              href="/privacy"
-              class="hover:text-white transition-colors duration-200"
-              >Privacy Policy</a
-            >
-            <a
-              href="/terms"
-              class="hover:text-white transition-colors duration-200"
-              >Terms of Service</a
-            >
-            <a
-              href="/sitemap"
-              class="hover:text-white transition-colors duration-200"
-              >Sitemap</a
-            >
-          </div>
         </div>
       </div>
     </div>
@@ -210,14 +213,18 @@ import {
   Youtube,
 } from "lucide-vue-next";
 import { ref } from "vue";
+import { useSettingStore } from "~/stores/setting";
+
+const settingStore = useSettingStore();
 
 const navigationItems = ref([
   { href: "/", label: "Trang chủ" },
   { href: "/category/cong-nghe", label: "Giới thiệu" },
+  { href: "/category/cong-nghe", label: "Tính phí" },
   { href: "/category/cong-nghe", label: "Thủ tục công chứng" },
   { href: "/category/cong-nghe", label: "Danh mục công chứng" },
-  { href: "/category/cong-nghe", label: "Tính phí" },
   { href: "/category/cong-nghe", label: "Văn bản pháp luật" },
+  { href: "/category/cong-nghe", label: "Câu hỏi thường gặp" },
   { href: "/category/cong-nghe", label: "Tin tức" },
 ]);
 

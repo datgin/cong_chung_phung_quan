@@ -27,45 +27,41 @@
 
              <li class="menu-title">Pages</li>
 
-             {{-- <li>
-                 <a href="#sidebarAuth" data-bs-toggle="collapse">
-                     <i data-feather="users"></i>
-                     <span> Authentication </span>
-                     <span class="menu-arrow"></span>
-                 </a>
-                 <div class="collapse" id="sidebarAuth">
-                     <ul class="nav-second-level">
-                         <li>
-                             <a class='tp-link' href='auth-login.html'>Log In</a>
-                         </li>
-                     </ul>
-                 </div>
-             </li> --}}
-
              <li>
                  <a class='tp-link' href='/admin/catalogues'>
                      <i data-feather="grid"></i>
                      <span> Quản lý danh mục </span>
                  </a>
              </li>
+
              <li>
                  <a class='tp-link' href='/admin/posts'>
                      <i data-feather="file-text"></i>
                      <span> Quản lý bài viết </span>
                  </a>
              </li>
+
+             <li>
+                 <a class="tp-link" href="/admin/sliders/form">
+                     <i data-feather="monitor"></i>
+                     <span> Quản lý slider </span>
+                 </a>
+             </li>
+
              <li>
                  <a class='tp-link' href='/admin/legal-documents'>
                      <i data-feather="book"></i>
                      <span> Văn bản pháp luật </span>
                  </a>
              </li>
+
              <li>
                  <a class='tp-link' href='/admin/faqs'>
                      <i data-feather="help-circle"></i>
                      <span> Câu hỏi thường gặp </span>
                  </a>
              </li>
+
              <li>
                  <a class='tp-link' href='/admin/contacts'>
                      <i data-feather="inbox"></i>

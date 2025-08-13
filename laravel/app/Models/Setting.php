@@ -32,5 +32,6 @@ class Setting extends Model
         'script_head',
         'script_body',
         'script_footer',
+        'working_time'
     ];
 }

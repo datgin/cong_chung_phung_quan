@@ -40,6 +40,7 @@ return new class extends Migration
             $table->text('script_head')->nullable();
             $table->text('script_body')->nullable();
             $table->text('script_footer')->nullable();
+            $table->string('working_time')->nullable();
 
             $table->timestamps();
         });

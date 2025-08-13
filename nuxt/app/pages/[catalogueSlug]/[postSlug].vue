@@ -9,8 +9,6 @@ const slug = route.params.postSlug;
 
 const post = ref(null);
 
-const url = useRequestURL();
-
 const getPost = async () => {
   post.value = await getOne(`posts/${slug}`);
 };
@@ -32,16 +30,10 @@ watch(
 
     useSeoMeta({
       title: post.title,
-      meta: [
-        {
-          name: "description",
-          content: post.meta_description || "Mô tả mặc định",
-        },
-        { property: "og:title", content: post.meta_title },
-        { property: "og:description", content: post.meta_description },
-        { property: "og:image", content: post.thumbnail },
-        { property: "og:url", content: url.href },
-      ],
+      description: post.meta_description,
+      ogTitle: post.meta_title,
+      ogDescription: post.meta_description,
+      ogImage: post.thumbnail,
     });
   },
   { immediate: true }

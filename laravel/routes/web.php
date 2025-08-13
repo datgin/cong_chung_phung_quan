@@ -10,6 +10,7 @@ use App\Http\Controllers\LegalDocumentController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -101,6 +102,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::post('update-mail-contact', 'updateMailContact');
+            });
+
+        Route::prefix('sliders')
+            ->controller(SliderController::class)
+            ->name('sliders')
+            ->group(function () {
+                Route::get('form', 'form');
+                Route::post('form', 'save');
             });
     });
 });

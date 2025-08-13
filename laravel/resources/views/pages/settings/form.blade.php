@@ -48,7 +48,13 @@
 
                             <div class="col-md-12">
                                 <div class="position-relative">
-                                    <x-textarea label="Bản đồ" value="{{ $setting->map }}" name="map" rows="4" />
+                                    <x-input label="Thời gian làm việc" value="{{ $setting->working_time }}"
+                                        name="working_time" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="position-relative">
+                                    <x-textarea label="Bản đồ" :value="$setting->map" name="map" rows="4" />
                                 </div>
                             </div>
                         </div>
@@ -250,7 +256,6 @@
             submitForm('#myForm', function(res, form, submitAction) {
 
                 if (submitAction === 'save') {
-                    form.trigger('reset');
                     datgin.success(res.message)
                     return;
                 }

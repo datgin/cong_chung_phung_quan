@@ -1,30 +1,59 @@
 <script setup>
 import { useSettingStore } from "~/stores/setting";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
+import { ChevronRight, Download } from "lucide-vue-next";
+
+import {
+  Autoplay,
+  Pagination,
+  Navigation,
+  EffectFade,
+  EffectCube,
+  EffectCoverflow,
+  EffectFlip,
+  EffectCards,
+  EffectCreative,
+} from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
-// import { ClientOnly } from "#components";
-import { ChevronRight, Download } from "lucide-vue-next";
+import "swiper/css/effect-cube";
+import "swiper/css/effect-coverflow";
+import "swiper/css/effect-flip";
+import "swiper/css/effect-cards";
+import "swiper/css/effect-creative";
 
-const { getAll } = useApi();
+const effectModules = {
+  fade: EffectFade,
+  cube: EffectCube,
+  coverflow: EffectCoverflow,
+  flip: EffectFlip,
+  cards: EffectCards,
+  creative: EffectCreative,
+};
+
+const modules = computed(() => {
+  if (!slider.value) return [];
+  return [
+    slider.value.autoplay ? Autoplay : null,
+    slider.value.pagination ? Pagination : null,
+    slider.value.navigation ? Navigation : null,
+    effectModules[slider.value.effect] || null,
+  ].filter(Boolean);
+});
+
+const { getAll, getOne } = useApi();
 const { $api } = useNuxtApp();
 const settingStore = useSettingStore();
-
-const banners = [
-  "/images/banner1920x500.jpg",
-  "/images/17492023546842b5b259e8f.jpg",
-  "/images/banner1920x500.jpg",
-];
-
-const modules = [Autoplay, Pagination, Navigation, EffectFade];
 
 const posts = ref([]);
 const legalDocuments = ref([]);
 const faqs = ref([]);
+const slider = ref(null);
+const items = ref([]);
 
 const fetchLegalDocuments = async () => {
   legalDocuments.value = await getAll("legal-documents?page=home");
@@ -37,6 +66,13 @@ const fetchPosts = async () => {
 const fetchFaqs = async () => {
   faqs.value = await getAll("faqs");
 };
+
+const getSlider = async () => {
+  const response = await getOne("sliders");
+  slider.value = response;
+  items.value = response.items || [];
+};
+
 const downloadFile = async (file) => {
   try {
     const response = await $api.get(`legal-documents/download/${file}`, {
@@ -86,28 +122,54 @@ onMounted(() => {
   fetchLegalDocuments();
   fetchPosts();
   fetchFaqs();
+  getSlider();
 });
 </script>
 
 <template>
   <div>
-    <div class="relative w-full md:h-[500px] h-[110px]">
+
+
+    <div v-if="slider" class="relative w-full md:h-[500px] h-[110px]">
       <Swiper
         :modules="modules"
-        :slides-per-view="1"
-        :loop="true"
-        :autoplay="{ delay: 3000, disableOnInteraction: false }"
-        effect="fade"
-        pagination
-        navigation
+        :slides-per-view="slider.slides_per_view"
+        :space-between="slider.space_between"
+        :loop="slider.loop"
+        :effect="slider.effect"
+        :pagination="slider.pagination ? { clickable: true } : false"
+        :navigation="slider.navigation"
+        :autoplay="
+          slider.autoplay
+            ? { delay: slider.autoplay_delay, disableOnInteraction: false }
+            : false
+        "
         class="w-full h-full"
       >
         <SwiperSlide
-          v-for="(img, index) in banners"
+          v-for="(item, index) in items"
           :key="index"
           class="w-full h-full"
         >
-          <NuxtImg :src="img" alt="banner" class="w-full h-full object-cover" />
+          <component
+            :is="item.url ? 'a' : 'div'"
+            v-bind="
+              item.url
+                ? {
+                    href: item.url,
+                    target: '_blank',
+                    rel: 'noopener noreferrer',
+                  }
+                : {}
+            "
+            class="block w-full h-full"
+          >
+            <NuxtImg
+              :src="item.image"
+              :alt="item.alt || ''"
+              class="w-full h-full object-cover"
+            />
+          </component>
         </SwiperSlide>
       </Swiper>
 

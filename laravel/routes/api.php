@@ -6,7 +6,8 @@ use App\Http\Controllers\Api\{
     FaqController,
     LegalDocumentController,
     PostController,
-    SettingController
+    SettingController,
+    SliderController
 };
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -51,5 +52,7 @@ Route::prefix('faqs')
         Route::get('/', 'index');
         Route::get('{slug}', 'show');
     });
+
+Route::get('sliders', [SliderController::class, 'index']);
 
 Route::post('contacts/send', [ContactController::class, 'send']);
