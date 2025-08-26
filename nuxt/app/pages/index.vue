@@ -128,9 +128,7 @@ onMounted(() => {
 
 <template>
   <div>
-
-
-    <div v-if="slider" class="relative w-full md:h-[500px] h-[110px]">
+    <div v-if="slider" class="relative w-full md:h-[800px] h-[180px]">
       <Swiper
         :modules="modules"
         :slides-per-view="slider.slides_per_view"
@@ -172,7 +170,7 @@ onMounted(() => {
           </component>
         </SwiperSlide>
       </Swiper>
-
+<!-- 1920×800 -->
       <!-- Optional: Caption/Text -->
       <div
         class="absolute inset-0 flex items-center justify-center text-white text-3xl md:text-5xl font-bold bg-black/30"
@@ -182,9 +180,9 @@ onMounted(() => {
     </div>
 
     <div class="py-10 sm:py-12 bg-white">
-      <div class="max-w-7xl mx-auto">
+      <div class="max-w-7xl mx-auto md:px-0 px-3">
         <!-- Header -->
-        <div class="mb-8">
+        <div class="mb-6">
           <h1
             class="text-2xl font-bold text-gray-900 pl-4 border-l-4 border-red-500"
           >
