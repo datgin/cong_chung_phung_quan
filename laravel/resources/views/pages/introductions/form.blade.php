@@ -26,7 +26,7 @@
 
                                 <div class="col-md-12">
                                     <label for="content" class="form-label fw-medium">Nội dung</label>
-                                    <textarea name="content" class="ckeditor" id="content">{!! $introduction->content !!}</textarea>
+                                    <textarea name="content" class="ckeditor" id="content">{!! $introduction?->content !!}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
 
                                 <div>
                                     @php
-                                        $date = $introduction->created_at ?? now();
+                                        $date = $introduction?->created_at ?? now();
                                     @endphp
 
                                     <span style="color: #70757a;">
@@ -68,11 +68,11 @@
                             <hr class="my-3">
 
                             <div class="mb-3 position-relative">
-                                <x-input name="meta_title" value="{{ $introduction->meta_title }}" label="Tiêu đề SEO" />
+                                <x-input name="meta_title" value="{{ $introduction?->meta_title }}" label="Tiêu đề SEO" />
                             </div>
 
                             <div class="mb-3 position-relative">
-                                <x-textarea name="meta_description" value="{{ $introduction->meta_description }}" label="Mô tả SEO" />
+                                <x-textarea name="meta_description" value="{{ $introduction?->meta_description }}" label="Mô tả SEO" />
                             </div>
                         </div>
                     </x-card>
