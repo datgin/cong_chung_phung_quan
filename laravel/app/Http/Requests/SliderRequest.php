@@ -28,10 +28,10 @@ class SliderRequest extends FormRequest
             'effect' => ['required', 'in:slide,fade,flip,cube,coverflow,creative'],
             'slides_per_view' => ['required', 'numeric', 'min:1'],
             'space_between' => ['required', 'numeric', 'min:0'],
-            'loop' => ['required', 'boolean'],
-            'autoplay' => ['required', 'boolean'],
-            'pagination' => ['required', 'boolean'],
-            'navigation' => ['required', 'boolean'],
+            'loop' => ['nullable'],
+            'autoplay' => ['nullable'],
+            'pagination' => ['nullable'],
+            'navigation' => ['nullable'],
             'autoplay_delay' => ['required', 'integer', 'min:0'],
 
             // Validate items là array

@@ -1,6 +1,7 @@
 <script setup>
 import { useLoadingStore } from "~/stores/loading";
 import { useSettingStore } from "~/stores/setting";
+import { useMenuStore } from "@/stores/menu";
 
 const isMobileMenuOpen = ref(false);
 const loadingStore = useLoadingStore();
@@ -8,8 +9,11 @@ const loadingStore = useLoadingStore();
 const settingStore = useSettingStore();
 const url = useRequestURL();
 
+const menuStore = useMenuStore();
+
 onMounted(async () => {
   await settingStore.fetchSetting();
+  await menuStore.fetchMenus();
 });
 
 const toggleMenu = (val) => {

@@ -51,7 +51,6 @@
             border: 2px dashed rgba(255, 255, 255, 0.5);
             padding: 25px;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
         }
 
         .contact-item {
@@ -62,18 +61,19 @@
         }
 
         .contact-label {
-            font-weight: 500;
+            font-weight: 600;
             min-width: 120px;
+            font-size: 14px;
         }
 
         .contact-info {
-            text-align: right;
-            flex: 1;
+            display: flex;
+            gap: 5px
         }
 
         .phone-number {
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 14px;
         }
 
         .time-info {

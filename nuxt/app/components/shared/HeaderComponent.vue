@@ -44,11 +44,13 @@ const openBoxSearch = async () => {
 
         <!-- Desktop -->
         <div class="hidden md:flex justify-between items-center w-full">
-          <div class="w-[30%]">
+          <div
+            class="w-[25%] h-[60px] flex items-center justify-center overflow-hidden"
+          >
             <NuxtImg
               :src="settingStore.setting?.logo"
               alt="logo"
-              class="object-contain w-full"
+              class="object-contain w-full h-full"
             />
           </div>
 

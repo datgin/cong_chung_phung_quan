@@ -50,6 +50,7 @@ const { $api } = useNuxtApp();
 const settingStore = useSettingStore();
 
 const posts = ref([]);
+const postsLatest = ref([]);
 const legalDocuments = ref([]);
 const faqs = ref([]);
 const slider = ref(null);
@@ -61,6 +62,10 @@ const fetchLegalDocuments = async () => {
 
 const fetchPosts = async () => {
   posts.value = await getAll("posts");
+};
+
+const fetchPostsLatest = async () => {
+  postsLatest.value = await getAll("posts/latest");
 };
 
 const fetchFaqs = async () => {
@@ -123,12 +128,13 @@ onMounted(() => {
   fetchPosts();
   fetchFaqs();
   getSlider();
+  fetchPostsLatest();
 });
 </script>
 
 <template>
   <div>
-    <div v-if="slider" class="relative w-full md:h-[800px] h-[180px]">
+    <div v-if="slider" class="relative w-full md:h-[850px] h-[180px]">
       <Swiper
         :modules="modules"
         :slides-per-view="slider.slides_per_view"
@@ -170,7 +176,7 @@ onMounted(() => {
           </component>
         </SwiperSlide>
       </Swiper>
-<!-- 1920×800 -->
+      <!-- 1920×800 -->
       <!-- Optional: Caption/Text -->
       <div
         class="absolute inset-0 flex items-center justify-center text-white text-3xl md:text-5xl font-bold bg-black/30"
@@ -182,11 +188,9 @@ onMounted(() => {
     <div class="py-10 sm:py-12 bg-white">
       <div class="max-w-7xl mx-auto md:px-0 px-3">
         <!-- Header -->
-        <div class="mb-6">
-          <h1
-            class="text-2xl font-bold text-gray-900 pl-4 border-l-4 border-red-500"
-          >
-            Tin tức nổi bật
+        <div class="mb-6 text-center">
+          <h1 class="text-2xl font-bold text-gray-900 pl-4">
+            Dịch vụ của chúng tôi
           </h1>
         </div>
 
@@ -202,7 +206,7 @@ onMounted(() => {
           <div class="flex items-center w-full">
             <div class="flex-1 border-t border-gray-300"></div>
             <button
-              class="mx-4 px-5 py-1.5 text-red-600 border border-red-500 rounded-full text-sm font-semibold hover:bg-red-50 transition cursor-pointer"
+              class="mx-4 px-5 py-1.5 text-[#104A86] border border-[#104A86] rounded-full text-sm font-semibold hover:bg-red-50 transition cursor-pointer"
             >
               XEM THÊM
             </button>
@@ -216,33 +220,39 @@ onMounted(() => {
               <!-- Tin mới cập nhật -->
               <div class="bg-white rounded-lg shadow p-5 flex flex-col">
                 <h1
-                  class="text-lg font-bold text-gray-900 border-l-4 border-red-500 pl-3 mb-4 uppercase"
+                  class="text-lg font-bold text-gray-900 border-l-4 border-[#104A86] pl-3 mb-4 uppercase"
                 >
                   Tin tức mới cập nhật
                 </h1>
-                <div class="mb-4">
-                  <img
-                    src="/images/cong_chung_di_chuc.png"
-                    alt="tin mới"
-                    class="w-full h-55 object-cover mb-2 rounded"
-                  />
-                  <p class="font-semibold text-gray-800">
-                    Hợp đồng ủy quyền: Rủi ro tiềm ẩn và giải pháp từ góc nhìn
-                    thực tế
-                  </p>
+                <div v-if="postsLatest.length" class="mb-4">
+                  <NuxtLink
+                    :to="`/${postsLatest[0].catalogue?.slug}/${postsLatest[0].slug}`"
+                    class="block"
+                  >
+                    <NuxtImg
+                      :src="postsLatest[0].thumbnail"
+                      :alt="postsLatest[0].title"
+                      class="w-full h-55 object-cover mb-2 rounded"
+                    />
+                    <p class="font-semibold text-gray-800">
+                      {{ postsLatest[0].title }}
+                    </p>
+                  </NuxtLink>
                 </div>
 
                 <ul class="text-sm text-gray-700">
                   <li
+                    v-for="post in postsLatest.slice(1, 5)"
+                    :key="post.id"
                     class="flex gap-3 items-start border-b border-gray-300 py-2"
                   >
-                    <img
-                      src="/images/cong_chung_di_chuc.png"
+                    <NuxtImg
+                      :src="post.thumbnail"
                       class="w-12 h-10 object-cover rounded"
                     />
                     <div>
                       <p class="text-gray-800">
-                        Tuyển dụng công chứng viên – Làm việc tại Hà Nội
+                        {{ truncateWords(post.title, 15) }}
                       </p>
                     </div>
                   </li>
@@ -250,7 +260,7 @@ onMounted(() => {
 
                 <div class="mt-auto pt-5">
                   <button
-                    class="text-red-600 border border-red-500 rounded-full px-4 py-1.5 text-sm hover:bg-red-50"
+                    class="text-[#104A86] border border-[#104A86] rounded-full px-4 py-1.5 text-sm hover:bg-red-50"
                   >
                     XEM THÊM
                   </button>
@@ -260,7 +270,7 @@ onMounted(() => {
               <!-- Câu hỏi thường gặp -->
               <div class="bg-white rounded-lg shadow p-5 flex flex-col">
                 <h1
-                  class="text-lg font-bold text-gray-900 border-l-4 border-red-500 pl-3 mb-4 uppercase"
+                  class="text-lg font-bold text-gray-900 border-l-4 border-[#104A86] pl-3 mb-4 uppercase"
                 >
                   Câu hỏi thường gặp
                 </h1>
@@ -302,7 +312,7 @@ onMounted(() => {
                 <div class="mt-auto pt-5">
                   <NuxtLink
                     :to="'/cau-hoi-thuong-gap'"
-                    class="inline-flex items-center gap-2 text-red-600 border border-red-500 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
+                    class="inline-flex items-center gap-2 text-[#104A86] border border-[#104A86] rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
                   >
                     XEM THÊM
                     <ChevronRight class="w-4 h-4" />
@@ -313,7 +323,7 @@ onMounted(() => {
               <!-- Văn bản pháp luật -->
               <div class="bg-white rounded-lg shadow p-5 flex flex-col">
                 <h1
-                  class="text-lg font-bold text-gray-900 border-l-4 border-red-500 pl-3 mb-4 uppercase"
+                  class="text-lg font-bold text-gray-900 border-l-4 border-[#104A86] pl-3 mb-4 uppercase"
                 >
                   Văn bản pháp luật
                 </h1>
@@ -345,7 +355,7 @@ onMounted(() => {
                 <div class="mt-auto pt-5">
                   <NuxtLink
                     :to="'van-ban-phap-luat'"
-                    class="inline-flex items-center gap-2 text-red-600 border border-red-500 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
+                    class="inline-flex items-center gap-2 text-[#104A86] border border-[#104A86] rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
                   >
                     XEM THÊM
                     <ChevronRight class="w-4 h-4" />

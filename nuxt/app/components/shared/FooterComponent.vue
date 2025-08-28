@@ -11,7 +11,7 @@
             <h2
               class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-4"
             >
-              TIN24H
+              PHUNG QUAN
             </h2>
             <div
               class="w-12 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-4"
@@ -150,15 +150,15 @@
           <ul class="space-y-4">
             <li
               v-for="post in highlightPosts"
-              :key="post.href"
+              :key="post.id"
               class="border-b border-slate-700 pb-3"
             >
-              <a
-                :href="post.href"
+              <NuxtLink
+                :to="`${post.catalogue?.slug}/${post.slug}`"
                 class="text-slate-300 hover:text-white transition-colors duration-200 block"
               >
                 {{ post.title }}
-              </a>
+              </NuxtLink>
               <p class="text-xs text-slate-500 mt-1 truncate">
                 {{ post.excerpt }}
               </p>
@@ -214,35 +214,49 @@ import {
 } from "lucide-vue-next";
 import { ref } from "vue";
 import { useSettingStore } from "~/stores/setting";
+import { useMenuStore } from "@/stores/menu";
+
+const { getAll } = useApi();
+
+const menuStore = useMenuStore();
 
 const settingStore = useSettingStore();
 
-const navigationItems = ref([
-  { href: "/", label: "Trang chủ" },
-  { href: "/category/cong-nghe", label: "Giới thiệu" },
-  { href: "/category/cong-nghe", label: "Tính phí" },
-  { href: "/category/cong-nghe", label: "Thủ tục công chứng" },
-  { href: "/category/cong-nghe", label: "Danh mục công chứng" },
-  { href: "/category/cong-nghe", label: "Văn bản pháp luật" },
-  { href: "/category/cong-nghe", label: "Câu hỏi thường gặp" },
-  { href: "/category/cong-nghe", label: "Tin tức" },
-]);
+const navigationItems = ref([]);
+
+watch(
+  () => menuStore.allMenus,
+  (val) => {
+    navigationItems.value = val.map((menu) => ({
+      href: menu.slug,
+      label: menu.name,
+    }));
+  },
+  { immediate: true }
+);
 
 const highlightPosts = ref([
-  {
-    title: "Hướng dẫn thủ tục công chứng nhà đất",
-    href: "/post/thu-tuc-cong-chung",
-    excerpt: "Chi tiết các bước cần chuẩn bị khi công chứng tài sản nhà đất...",
-  },
-  {
-    title: "Phí công chứng mới nhất năm 2025",
-    href: "/post/phi-cong-chung-2025",
-    excerpt: "Bảng phí áp dụng theo quy định mới của Bộ Tư pháp...",
-  },
-  {
-    title: "Top 5 câu hỏi thường gặp về cấp sổ đỏ",
-    href: "/post/hoi-dap-so-do",
-    excerpt: "Giải đáp các vướng mắc pháp lý khi xin cấp sổ đỏ lần đầu...",
-  },
+  // {
+  //   title: "Hướng dẫn thủ tục công chứng nhà đất",
+  //   href: "/post/thu-tuc-cong-chung",
+  //   excerpt: "Chi tiết các bước cần chuẩn bị khi công chứng tài sản nhà đất...",
+  // },
+  // {
+  //   title: "Phí công chứng mới nhất năm 2025",
+  //   href: "/post/phi-cong-chung-2025",
+  //   excerpt: "Bảng phí áp dụng theo quy định mới của Bộ Tư pháp...",
+  // },
+  // {
+  //   title: "Top 5 câu hỏi thường gặp về cấp sổ đỏ",
+  //   href: "/post/hoi-dap-so-do",
+  //   excerpt: "Giải đáp các vướng mắc pháp lý khi xin cấp sổ đỏ lần đầu...",
+  // },
 ]);
+
+const fetchPostsLatest = async () => {
+  const posts = await getAll("posts/latest");
+  highlightPosts.value = posts.slice(0, 3);
+};
+
+onMounted(fetchPostsLatest);
 </script>

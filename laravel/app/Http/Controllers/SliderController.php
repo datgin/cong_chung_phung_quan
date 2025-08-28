@@ -20,6 +20,11 @@ class SliderController extends Controller
 
         return transaction(function () use ($credentials) {
 
+            $credentials['loop'] ??= false;
+            $credentials['autoplay'] ??= false;
+            $credentials['pagination'] ??= false;
+            $credentials['navigation'] ??= false;
+
             $slider = Slider::query()->first();
 
             !$slider ? Slider::create($credentials) :  $slider->update($credentials);

@@ -1,90 +1,97 @@
 <template>
-  <!-- Desktop Navigation -->
-  <nav class="sticky top-0 z-50 bg-[#dd3333] text-white shadow hidden md:block">
-    <div class="max-w-7xl mx-auto">
-      <ul
-        ref="navRef"
-        class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm"
-      >
-        <!-- Menu hiển thị trực tiếp -->
-        <li
-          v-for="menu in visibleMenus"
-          :key="menu.id"
-          class="p-3 hover:bg-[#c12026] transition-colors menu-item"
+  <div>
+    <!-- Desktop Navigation -->
+    <nav
+      class="sticky top-0 z-50 bg-[#104A86] text-white shadow hidden md:block"
+    >
+      <div class="max-w-7xl mx-auto">
+        <ul
+          ref="navRef"
+          class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm"
         >
-          <NuxtLink :to="menu.slug" class="uppercase">{{ menu.name }}</NuxtLink>
-        </li>
-
-        <!-- Xem thêm -->
-        <li
-          v-if="overflowMenus.length"
-          class="relative group p-3 hover:bg-[#c12026] transition-colors"
-        >
-          <span class="uppercase cursor-pointer select-none">
-            Xem thêm
-            <ChevronDown class="w-4 h-4 inline-block" />
-          </span>
-          <ul
-            class="absolute left-0 top-full hidden group-hover:block bg-white text-black shadow-lg min-w-[200px] z-50"
+          <!-- Menu hiển thị trực tiếp -->
+          <li
+            v-for="menu in visibleMenus"
+            :key="menu.id"
+            class="p-3 hover:bg-[#c12026] transition-colors menu-item"
           >
-            <li
-              v-for="menu in overflowMenus"
-              :key="menu.id"
-              class="hover:bg-gray-100"
+            <NuxtLink :to="menu.slug" class="uppercase">{{
+              menu.name
+            }}</NuxtLink>
+          </li>
+
+          <!-- Xem thêm -->
+          <li
+            v-if="overflowMenus.length"
+            class="relative group p-3 hover:bg-[#c12026] transition-colors"
+          >
+            <span class="uppercase cursor-pointer select-none">
+              Xem thêm
+              <ChevronDown class="w-4 h-4 inline-block" />
+            </span>
+            <ul
+              class="absolute left-0 top-full hidden group-hover:block bg-white text-black shadow-lg min-w-[200px] z-50"
             >
-              <NuxtLink :to="menu.slug" class="block px-4 py-2">{{
-                menu.name
-              }}</NuxtLink>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Mobile Slide-in Menu -->
-  <div
-    class="fixed inset-0 z-50 transition-transform duration-300 ease-in-out md:hidden"
-    :class="isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'"
-  >
-    <!-- Overlay -->
-    <div
-      class="absolute inset-0 bg-black opacity-30 transition-opacity duration-300 ease-in-out"
-      @click="$emit('toggle-menu')"
-    ></div>
-
-    <!-- Menu -->
-    <div class="relative w-72 bg-white h-full shadow-lg p-4 z-50">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold">Menu</h3>
-        <button @click="$emit('toggle-menu')">
-          <X class="w-6 h-6 text-gray-800" />
-        </button>
+              <li
+                v-for="menu in overflowMenus"
+                :key="menu.id"
+                class="hover:bg-gray-100"
+              >
+                <NuxtLink :to="menu.slug" class="block px-4 py-2">{{
+                  menu.name
+                }}</NuxtLink>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
-      <ul class="space-y-2 text-gray-800 text-base font-medium">
-        <li v-for="menu in allMenus" :key="menu.id">
-          <NuxtLink
-            :to="menu.slug"
-            class="block py-2"
-            @click="$emit('toggle-menu')"
-            >{{ menu.name }}</NuxtLink
-          >
-        </li>
-      </ul>
+    </nav>
+
+    <!-- Mobile Slide-in Menu -->
+    <div
+      class="fixed inset-0 z-50 transition-transform duration-300 ease-in-out md:hidden"
+      :class="isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'"
+    >
+      <!-- Overlay -->
+      <div
+        class="absolute inset-0 bg-black opacity-30 transition-opacity duration-300 ease-in-out"
+        @click="$emit('toggle-menu')"
+      ></div>
+
+      <!-- Menu -->
+      <div class="relative w-72 bg-white h-full shadow-lg p-4 z-50">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold">Menu</h3>
+          <button @click="$emit('toggle-menu')">
+            <X class="w-6 h-6 text-gray-800" />
+          </button>
+        </div>
+        <ul class="space-y-2 text-gray-800 text-base font-medium">
+          <li v-for="menu in allMenus" :key="menu.id">
+            <NuxtLink
+              :to="menu.slug"
+              class="block py-2"
+              @click="$emit('toggle-menu')"
+              >{{ menu.name }}</NuxtLink
+            >
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { X, ChevronDown } from "lucide-vue-next";
+import { useMenuStore } from "@/stores/menu";
 
 defineEmits(["toggle-menu"]);
 defineProps({
   isMobileMenuOpen: { type: Boolean, default: false },
 });
 
-const { getAll } = useApi();
+const menuStore = useMenuStore();
 
 const navRef = ref(null);
 const allMenus = ref([]);
@@ -93,37 +100,16 @@ const overflowMenus = ref([]);
 
 let resizeObserver = null;
 
-const defaultMenus = [
-  { id: "home", name: "Trang chủ", slug: "/" },
-  { id: "gioi-thieu", name: "Giới thiệu", slug: "/gioi-thieu" },
-  { id: "tinh-phi", name: "Tính phí", slug: "/tinh-phi" },
-  { id: "van-ban-phap-luat", name: "Văn bản pháp luật", slug: "/van-ban-phap-luat" },
-  { id: "cau-hoi-thuong-gap", name: "Câu hỏi thường gặp", slug: "/cau-hoi-thuong-gap" },
-  { id: "lien-he", name: "Liên hệ", slug: "/lien-he" },
-];
-
-const fetchData = async () => {
-  try {
-    const result = await getAll("/catalogues");
-    allMenus.value = [
-      defaultMenus[0],
-      defaultMenus[1],
-      defaultMenus[2],
-      ...result.map((c) => ({
-        id: `cat-${c.id}`,
-        name: c.name,
-        slug: `/${c.slug}`,
-      })),
-      defaultMenus[3],
-      defaultMenus[4],
-      defaultMenus[5],
-    ];
-    await nextTick(); // đợi DOM cập nhật nếu cần
-    // KHÔNG gọi calculateVisibleMenus() ở đây — dùng ResizeObserver để trigger 1 lần ban đầu
-  } catch (err) {
-    console.error("Lỗi gọi API:", err);
-  }
-};
+watch(
+  () => menuStore.allMenus,
+  (val) => {
+    allMenus.value = val;
+    if (val.length) {
+      calculateVisibleMenus();
+    }
+  },
+  { immediate: true }
+);
 
 const calculateVisibleMenus = async () => {
   if (!navRef.value) return;
@@ -198,8 +184,6 @@ const calculateVisibleMenus = async () => {
 };
 
 onMounted(async () => {
-  await fetchData();
-
   if (window.ResizeObserver) {
     resizeObserver = new ResizeObserver(() => {
       requestAnimationFrame(() => {

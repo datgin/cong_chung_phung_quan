@@ -267,9 +267,7 @@ function internalHandleSelect() {
             class="position-relative selected-img ${
                 multiple ? "" : "w-100 h-100"
             }">
-            <img src="${img.path}" data-path="${
-            img.path
-        }" class="rounded">
+            <img src="${img.path}" data-path="${img.path}" class="rounded">
             <div class="overlay-hover-image position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 gap-2 justify-content-center align-items-center" style="display: none;">
                 <a href="${
                     img.path
@@ -352,7 +350,6 @@ function loadImages(page = 1, keyword = "") {
 
             console.log(res);
 
-
             let paginationHtml = ""; // Khởi tạo biến ở ngoài để tránh mất
             if (res.data && res.data.last_page > 1) {
                 const currentPage = res.data.current_page;
@@ -419,18 +416,45 @@ $(document).on("click", ".img-select", function () {
 $(document)
     .off("click", ".copy-icon")
     .on("click", ".copy-icon", function () {
-        const url = $(this).siblings("code").text().trim();
+        const $icon = $(this);
+        const url = $icon.siblings("code").text().trim();
 
-        navigator.clipboard.writeText(url).then(() => {
-            $(this).removeClass("text-muted").addClass("text-success");
-            $(this).attr("title", "Đã sao chép!");
+        const showSuccess = () => {
+            $icon
+                .removeClass("text-muted")
+                .addClass("text-success")
+                .attr("title", "Đã sao chép!");
             datgin.success("Đã sao chép!");
-
             setTimeout(() => {
-                $(this).removeClass("text-success").addClass("text-muted");
-                $(this).attr("title", "Sao chép");
+                $icon
+                    .removeClass("text-success")    
+                    .addClass("text-muted")
+                    .attr("title", "Sao chép");
             }, 1500);
-        });
+        };
+
+        if (navigator.clipboard?.writeText) {
+            navigator.clipboard
+                .writeText(url)
+                .then(showSuccess)
+                .catch(() => fallbackCopy());
+        } else {
+            fallbackCopy();
+        }
+
+        function fallbackCopy() {
+            const textarea = document.createElement("textarea");
+            textarea.value = url;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand("copy");
+                showSuccess();
+            } catch (err) {
+                console.error("Không thể sao chép", err);
+            }
+            document.body.removeChild(textarea);
+        }
     });
 
 $(document).on("click", ".btn-open-media", function (e) {

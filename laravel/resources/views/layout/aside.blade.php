@@ -9,7 +9,7 @@
                      <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
                  </span>
                  <span class="logo-lg">
-                     <img src="{{ showImage($setting->logo) }}" alt="" height="24">
+                     <img src="{{ asset('assets/images/logo.png') }}" alt="" height="24">
                  </span>
              </a>
          </div>
@@ -66,6 +66,13 @@
                  <a class='tp-link' href='/admin/contacts'>
                      <i data-feather="inbox"></i>
                      <span> Yêu cầu liên hệ </span>
+                 </a>
+             </li>
+
+             <li>
+                 <a class="tp-link" href="/admin/introduction">
+                     <i data-feather="info"></i>
+                     <span> Giới thiệu công ty</span>
                  </a>
              </li>
 
