@@ -13,11 +13,19 @@
           <li
             v-for="menu in visibleMenus"
             :key="menu.id"
-            class="p-3 hover:bg-[#c12026] transition-colors menu-item"
+            class="transition-colors menu-item"
+            :class="
+              isActive(menu.slug)
+                ? 'bg-[#c12026] text-white'
+                : 'hover:bg-[#c12026]'
+            "
           >
-            <NuxtLink :to="menu.slug" class="uppercase">{{
-              menu.name
-            }}</NuxtLink>
+            <NuxtLink
+              :to="menu.slug"
+              class="uppercase block w-full h-full p-3"
+            >
+              {{ menu.name }}
+            </NuxtLink>
           </li>
 
           <!-- Xem thêm -->
@@ -36,10 +44,11 @@
                 v-for="menu in overflowMenus"
                 :key="menu.id"
                 class="hover:bg-gray-100"
+                :class="isActive(menu.slug) ? 'bg-gray-200 font-semibold' : ''"
               >
-                <NuxtLink :to="menu.slug" class="block px-4 py-2">{{
-                  menu.name
-                }}</NuxtLink>
+                <NuxtLink :to="menu.slug" class="block px-4 py-2">
+                  {{ menu.name }}
+                </NuxtLink>
               </li>
             </ul>
           </li>
@@ -92,6 +101,7 @@ defineProps({
 });
 
 const menuStore = useMenuStore();
+const route = useRoute();
 
 const navRef = ref(null);
 const allMenus = ref([]);
@@ -99,6 +109,15 @@ const visibleMenus = ref([]);
 const overflowMenus = ref([]);
 
 let resizeObserver = null;
+
+const isActive = (menuSlug) => {
+  // Nếu slug = "/" (trang chủ) thì phải so khớp chính xác
+  if (menuSlug === "/") {
+    return route.path === "/";
+  }
+  // Trang hiện tại bắt đầu bằng slug cha (ví dụ /tin-tuc/bai-viet -> /tin-tuc)
+  return route.path.startsWith(menuSlug);
+};
 
 watch(
   () => menuStore.allMenus,

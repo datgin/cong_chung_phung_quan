@@ -11,6 +11,7 @@ const { getAll } = useApi();
 const latestPosts = ref([]);
 const slides = ref([]);
 const sliderTitle = ref("");
+const catalogue = ref(null);
 
 const fetchPostLatest = async () => {
   latestPosts.value = await getAll("posts/latest");
@@ -19,7 +20,7 @@ const fetchPostLatest = async () => {
 const fetchSliderPosts = async () => {
   const response = await getAll("posts/slider");
   slides.value = response.posts;
-  sliderTitle.value = response.catalogue.slider_title;
+  catalogue.value = response.catalogue;
 };
 
 onMounted(() => {
@@ -29,17 +30,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <a :href="settingStore.setting?.link_banner || 'javascript:void(0)'">
+  <NuxtLink :to="settingStore.setting?.link_banner || 'javascript:void(0)'">
     <img
       :src="settingStore.setting?.banner"
       :alt="settingStore.setting?.alt_banner"
       class="w-full h-auto"
     />
-  </a>
+  </NuxtLink>
 
   <div class="w-full max-w-sm mt-5 mb-3">
     <h2 class="text-lg font-bold text-gray-900 mb-2">
-      <span class="text-red-600 font-bold mr-1">|</span> {{ sliderTitle }}
+      <span class="text-red-600 font-bold mr-1">|</span>
+      {{ catalogue?.slider_title }}
     </h2>
 
     <Swiper
@@ -56,7 +58,7 @@ onMounted(() => {
       class="overflow-hidden"
     >
       <SwiperSlide v-for="(item, index) in slides" :key="index">
-        <a :href="123">
+        <NuxtLink :to="`/${catalogue?.slug}/${item.slug}`">
           <img
             :src="item.thumbnail"
             alt=""
@@ -67,7 +69,7 @@ onMounted(() => {
           >
             {{ item.title }}
           </p>
-        </a>
+        </NuxtLink>
       </SwiperSlide>
     </Swiper>
   </div>

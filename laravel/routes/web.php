@@ -6,6 +6,7 @@ use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\IntroductionController;
 use App\Http\Controllers\LegalDocumentController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PostController;
@@ -43,6 +44,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('upload', 'upload');
             Route::delete('destroy', 'destroy');
         });
+
+        Route::prefix('introductions')
+            ->controller(IntroductionController::class)
+            ->name('introductions.')
+            ->group(function () {
+                Route::get('/', 'form')->name('form');
+                Route::post('/', 'save')->name('save');
+            });
 
         Route::prefix('settings')
             ->controller(SettingController::class)

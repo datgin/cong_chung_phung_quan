@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\{
     CatalogueController,
     ContactController,
     FaqController,
+    IntroductionController,
     LegalDocumentController,
     PostController,
     SettingController,
@@ -28,6 +29,8 @@ Route::get('catalogues/{slug}', [CatalogueController::class, 'show']);
 
 
 Route::get('settings', [SettingController::class, 'show']);
+
+Route::get('introduction', [IntroductionController::class, 'introduction']);
 
 Route::prefix('posts')
     ->controller(PostController::class)

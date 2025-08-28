@@ -70,7 +70,7 @@
              </li>
 
              <li>
-                 <a class="tp-link" href="/admin/introduction">
+                 <a class="tp-link" href="/admin/introductions">
                      <i data-feather="info"></i>
                      <span> Giới thiệu công ty</span>
                  </a>

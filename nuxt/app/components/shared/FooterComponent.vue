@@ -126,15 +126,15 @@
           </h3>
           <ul class="space-y-3">
             <li v-for="item in navigationItems" :key="item.href">
-              <a
-                :href="item.href"
+              <NuxtLink
+                :to="item.href"
                 class="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center group uppercase"
               >
                 <span
                   class="w-1 h-1 bg-blue-500 rounded-full mr-3 group-hover:w-2 transition-all duration-200"
                 ></span>
                 {{ item.label }}
-              </a>
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -154,7 +154,7 @@
               class="border-b border-slate-700 pb-3"
             >
               <NuxtLink
-                :to="`${post.catalogue?.slug}/${post.slug}`"
+                :to="`/${post.catalogue?.slug}/${post.slug}`"
                 class="text-slate-300 hover:text-white transition-colors duration-200 block"
               >
                 {{ post.title }}
@@ -235,23 +235,7 @@ watch(
   { immediate: true }
 );
 
-const highlightPosts = ref([
-  // {
-  //   title: "Hướng dẫn thủ tục công chứng nhà đất",
-  //   href: "/post/thu-tuc-cong-chung",
-  //   excerpt: "Chi tiết các bước cần chuẩn bị khi công chứng tài sản nhà đất...",
-  // },
-  // {
-  //   title: "Phí công chứng mới nhất năm 2025",
-  //   href: "/post/phi-cong-chung-2025",
-  //   excerpt: "Bảng phí áp dụng theo quy định mới của Bộ Tư pháp...",
-  // },
-  // {
-  //   title: "Top 5 câu hỏi thường gặp về cấp sổ đỏ",
-  //   href: "/post/hoi-dap-so-do",
-  //   excerpt: "Giải đáp các vướng mắc pháp lý khi xin cấp sổ đỏ lần đầu...",
-  // },
-]);
+const highlightPosts = ref([]);
 
 const fetchPostsLatest = async () => {
   const posts = await getAll("posts/latest");
