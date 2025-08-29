@@ -13,20 +13,20 @@
         />
       </div>
       <div class="p-3">
-        <p class="text-xs text-gray-400 mb-2 flex items-center">
+        <!-- <p class="text-xs text-gray-400 mb-2 flex items-center">
           <CalendarDays class="w-4 h-4 me-1" />
           <span>
             {{ new Date(post.published_at).toLocaleDateString("vi-VN") }}
           </span>
-        </p>
+        </p> -->
         <h3
           class="text-md font-semibold text-gray-800 group-hover:text-blue-800 transition line-clamp-2"
         >
           {{ post.title }}
         </h3>
-        <p class="text-sm text-gray-600 mt-2">
+        <!-- <p class="text-sm text-gray-600 mt-2">
           {{ truncateWords(post.excerpt, 35) }}
-        </p>
+        </p> -->
       </div>
     </NuxtLink>
   </div>

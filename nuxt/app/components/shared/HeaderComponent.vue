@@ -54,7 +54,7 @@ const openBoxSearch = async () => {
             />
           </div>
 
-          <div class="w-[25%]">
+          <div class="w-[30%]">
             <div class="flex items-center gap-2">
               <div class="rounded-full border-red-700 p-2 border-2">
                 <Phone class="w-4 h-4 text-red-700" />
@@ -71,7 +71,7 @@ const openBoxSearch = async () => {
             </div>
           </div>
 
-          <div class="w-[25%]">
+          <div class="w-[30%]">
             <div class="flex items-center gap-2">
               <div class="rounded-full border-red-700 p-2 border-2">
                 <MapPin class="w-4 h-4 text-red-700" />

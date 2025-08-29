@@ -134,7 +134,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <div v-if="slider" class="relative w-full md:h-[850px] h-[180px]">
+    <div v-if="slider" class="relative w-full aspect-[1928/1000]">
       <Swiper
         :modules="modules"
         :slides-per-view="slider.slides_per_view"
@@ -171,15 +171,15 @@ onMounted(() => {
             <NuxtImg
               :src="item.image"
               :alt="item.alt || ''"
-              class="w-full h-full object-cover"
+              class="w-full h-full object-cover object-center"
             />
           </component>
         </SwiperSlide>
       </Swiper>
-      <!-- 1920×800 -->
+
       <!-- Optional: Caption/Text -->
       <div
-        class="absolute inset-0 flex items-center justify-center text-white text-3xl md:text-5xl font-bold bg-black/30"
+        class="absolute inset-0 flex items-center justify-center text-white text-2xl md:text-5xl font-bold bg-black/30 text-center px-4"
       >
         <p>Chào mừng bạn đến với trang web</p>
       </div>
