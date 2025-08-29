@@ -5,28 +5,25 @@
     class="bg-gray-50 overflow-hidden shadow-sm hover:shadow-md transition"
   >
     <NuxtLink :to="`/${post.catalogue?.slug}/${post.slug}`" class="block group">
-      <div class="h-60 sm:h-40 md:h-48 overflow-hidden">
-        <NuxtImg
-          :src="post.thumbnail"
-          :alt="post.title"
-          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-      </div>
-      <div class="p-3">
-        <!-- <p class="text-xs text-gray-400 mb-2 flex items-center">
-          <CalendarDays class="w-4 h-4 me-1" />
-          <span>
-            {{ new Date(post.published_at).toLocaleDateString("vi-VN") }}
-          </span>
-        </p> -->
-        <h3
-          class="text-md font-semibold text-gray-800 group-hover:text-blue-800 transition line-clamp-2"
-        >
-          {{ post.title }}
-        </h3>
-        <!-- <p class="text-sm text-gray-600 mt-2">
-          {{ truncateWords(post.excerpt, 35) }}
-        </p> -->
+      <!-- Mobile: flex-row (ảnh trái, text phải) / Desktop: ảnh trên, text dưới -->
+      <div class="flex flex-row md:flex-col">
+        <!-- Ảnh -->
+        <div class="w-1/3 md:w-full h-28 md:h-48 overflow-hidden">
+          <NuxtImg
+            :src="post.thumbnail"
+            :alt="post.title"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+
+        <!-- Nội dung -->
+        <div class="p-3 flex-1">
+          <h3
+            class="text-sm md:text-md font-semibold text-gray-800 group-hover:text-blue-800 transition line-clamp-2"
+          >
+            {{ post.title }}
+          </h3>
+        </div>
       </div>
     </NuxtLink>
   </div>

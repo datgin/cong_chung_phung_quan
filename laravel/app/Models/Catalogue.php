@@ -17,13 +17,15 @@ class Catalogue extends Model
         'published',
         'slider_title',
         'is_slider',
+        'is_service',
         'meta_title',
         'meta_description'
     ];
 
     protected $casts = [
         'published' => 'boolean',
-        'is_slider' => 'boolean'
+        'is_slider' => 'boolean',
+        'is_service' => 'boolean',
     ];
 
     public function scopePublished($query)

@@ -205,11 +205,13 @@ onMounted(() => {
         <div class="flex items-center justify-center my-8">
           <div class="flex items-center w-full">
             <div class="flex-1 border-t border-gray-300"></div>
-            <button
+            <NuxtLink
+              v-if="posts.length > 0"
+              :to="`/${posts[0].catalogue?.slug}`"
               class="mx-4 px-5 py-1.5 text-[#104A86] border border-[#104A86] rounded-full text-sm font-semibold hover:bg-red-50 transition cursor-pointer"
             >
               XEM THÊM
-            </button>
+            </NuxtLink>
             <div class="flex-1 border-t border-gray-300"></div>
           </div>
         </div>
@@ -260,9 +262,10 @@ onMounted(() => {
 
                 <div class="mt-auto pt-5">
                   <button
-                    class="text-[#104A86] border border-[#104A86] rounded-full px-4 py-1.5 text-sm hover:bg-red-50"
+                    class="inline-flex items-center gap-2 text-[#104A86] border border-[#104A86] rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-[#104A86] hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
                   >
                     XEM THÊM
+                    <ChevronRight class="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -312,7 +315,7 @@ onMounted(() => {
                 <div class="mt-auto pt-5">
                   <NuxtLink
                     :to="'/cau-hoi-thuong-gap'"
-                    class="inline-flex items-center gap-2 text-[#104A86] border border-[#104A86] rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
+                    class="inline-flex items-center gap-2 text-[#104A86] border border-[#104A86] rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-[#104A86] hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
                   >
                     XEM THÊM
                     <ChevronRight class="w-4 h-4" />
@@ -355,7 +358,7 @@ onMounted(() => {
                 <div class="mt-auto pt-5">
                   <NuxtLink
                     :to="'van-ban-phap-luat'"
-                    class="inline-flex items-center gap-2 text-[#104A86] border border-[#104A86] rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
+                    class="inline-flex items-center gap-2 text-[#104A86] border border-[#104A86] rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-300 hover:bg-[#104A86] hover:text-white focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
                   >
                     XEM THÊM
                     <ChevronRight class="w-4 h-4" />

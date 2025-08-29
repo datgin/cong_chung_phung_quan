@@ -60,8 +60,14 @@ class CatalogueController extends Controller
         return transaction(function () use ($request) {
             $credentials = $request->validated();
 
-            if ($request->filled('is_slider')) {
+            // Nếu chọn "Đặt làm danh mục slider" thì reset lại các bản ghi khác
+            if ($request->boolean('is_slider')) {
                 Catalogue::where('is_slider', true)->update(['is_slider' => false]);
+            }
+
+            // Nếu chọn "Đặt làm danh mục dịch vụ" thì reset lại các bản ghi khác
+            if ($request->boolean('is_service')) {
+                Catalogue::where('is_service', true)->update(['is_service' => false]);
             }
 
             Catalogue::create($credentials);
@@ -100,8 +106,14 @@ class CatalogueController extends Controller
         return transaction(function () use ($request, $catalogue) {
             $credentials = $request->validated();
 
-            if ($request->filled('is_slider') && !$catalogue->is_slider) {
+            // Nếu request bật is_slider và bản ghi hiện tại chưa phải slider
+            if ($request->boolean('is_slider') && !$catalogue->is_slider) {
                 Catalogue::where('is_slider', true)->update(['is_slider' => false]);
+            }
+
+            // Nếu request bật is_service và bản ghi hiện tại chưa phải service
+            if ($request->boolean('is_service') && !$catalogue->is_service) {
+                Catalogue::where('is_service', true)->update(['is_service' => false]);
             }
 
             $catalogue->update($credentials);

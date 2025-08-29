@@ -28,6 +28,7 @@ class CatalogueRequest extends FormRequest
             'slug'              => "nullable|string|max:250|unique:catalogues,slug,{$id}",
             'published'         => 'required|in:0,1',
             'is_slider'         => 'nullable',
+            'is_service'        => 'nullable',
             'slider_title'      => 'nullable|string|max:100',
             'position'          => 'required|numeric|min:0',
             'meta_title'        => 'nullable|string|max:250',

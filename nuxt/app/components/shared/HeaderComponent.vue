@@ -1,4 +1,3 @@
-ar
 <script setup>
 import { Phone, MapPin, Search, AlignJustify, X } from "lucide-vue-next";
 import { nextTick, ref } from "vue";
@@ -22,24 +21,43 @@ const openBoxSearch = async () => {
     <!-- Top Bar -->
     <div class="text-gray-800 max-w-7xl mx-auto bg-white">
       <div
-        class="py-3 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+        class="py-3 px-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
       >
         <!-- Mobile Top -->
-        <div class="flex items-center justify-between md:hidden">
-          <!-- Left: Menu -->
-          <button class="p-3" @click="emit('toggle-menu', true)">
-            <AlignJustify class="w-5 h-5 text-gray-800" />
-          </button>
+        <div class="flex flex-col w-full md:hidden">
+          <!-- Hàng trên: Menu - Logo - Call -->
+          <div class="flex items-center justify-between">
+            <!-- Left: Menu -->
+            <button class="p-2" @click="emit('toggle-menu', true)">
+              <AlignJustify class="w-5 h-5 text-gray-800" />
+            </button>
 
-          <!-- Center: Logo -->
-          <div class="w-1/2 flex justify-center">
-            <NuxtImg src="/images/logo.png" alt="logo" class="object-contain" />
+            <!-- Center: Logo -->
+            <div class="w-1/2 flex justify-center">
+              <NuxtImg
+                :src="settingStore.setting?.logo"
+                alt="logo"
+                class="object-contain max-h-[60px] w-auto"
+              />
+            </div>
+
+            <!-- Right: Call -->
+            <a
+              :href="`tel:${formatPhone(settingStore.setting?.hotline)}`"
+              class="p-2 border border-red-700 rounded-full"
+            >
+              <Phone class="w-5 h-5 text-red-700" />
+            </a>
           </div>
 
-          <!-- Right: Search -->
-          <button class="p-3" @click="openBoxSearch">
-            <Search class="w-5 h-5 text-gray-800" />
-          </button>
+          <!-- Hàng dưới: Search Input -->
+          <div class="px-3 mt-2">
+            <input
+              type="text"
+              placeholder="Nhập từ khóa tìm kiếm..."
+              class="w-full border rounded-full px-4 py-2 text-sm border-gray-300 focus:border-red-500 outline-none placeholder-gray-400"
+            />
+          </div>
         </div>
 
         <!-- Desktop -->

@@ -13,21 +13,27 @@ class PostController extends Controller
     {
         $catalogueSlug = $request->input('catalogueSlug', null);
 
-        $catalogue = $catalogueSlug ? Catalogue::query()
-            ->where('slug', $catalogueSlug)
-            ->firstOrFail() : '';
+        // lấy catalogue có is_service = true
+        $catalogIsService = Catalogue::query()->where('is_service', true)->first();
+
+        // nếu có slug thì lấy theo slug, không thì lấy catalogue service
+        $catalogue = $catalogueSlug
+            ? Catalogue::query()->where('slug', $catalogueSlug)->firstOrFail()
+            : $catalogIsService;
 
         $query = Post::query()
             ->published()
-            ->when(!empty($catalogueSlug), fn($q) => $q->where('catalogue_id', $catalogue->id))
+            ->when($catalogue, fn($q) => $q->where('catalogue_id', $catalogue->id))
             ->with(['catalogue'])
             ->latest()
             ->limit(20);
 
+        // nếu có slug thì phân trang, còn lại thì chỉ get theo limit
         $posts = $catalogueSlug ? $query->paginate(15) : $query->get();
 
         return successResponse(data: $posts);
     }
+
 
     public function show(string $slug)
     {

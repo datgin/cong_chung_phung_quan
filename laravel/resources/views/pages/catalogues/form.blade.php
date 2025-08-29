@@ -30,6 +30,16 @@
                                             tooltip="Nếu không nhập sẽ tự động lấy theo tên danh mục" />
                                     </div>
                                 </div>
+
+                                <div class="col-md-12 ">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1" id="is_service"
+                                            name="is_service" {{ optional($catalogue)->is_service ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_service">
+                                            Đặt làm danh mục dịch vụ
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,7 +99,7 @@
                     </x-card>
 
                     <x-card title="Trạng thái">
-                        <x-select value="{{ optional($catalogue)->published ?? 1 }}" name="published" :options="['1' => 'Hoạt động', '0' => 'Ngưng hoạt động']"
+                        <x-select value="{{ optional($catalogue)->published ? 1 : 0 }}" name="published" :options="['1' => 'Hoạt động', '0' => 'Ngưng hoạt động']"
                             placeholder="trạng thái" />
                     </x-card>
 
@@ -99,7 +109,8 @@
                     </x-card>
 
                     <x-card title="Tiêu đề slider">
-                        <x-input name="slider_title" value="{{ optional($catalogue)->slider_title }}" placeholder="tiêu đề slider"/>
+                        <x-input name="slider_title" value="{{ optional($catalogue)->slider_title }}"
+                            placeholder="tiêu đề slider" />
                     </x-card>
 
                     <x-card title="Dùng làm slider?">
